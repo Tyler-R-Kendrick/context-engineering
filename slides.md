@@ -279,14 +279,37 @@ Enhance your workflow with these tools
 Strategic comments provide context to Copilot
 
 ```typescript
-// TODO: Implement caching layer for frequently accessed user data
+// Implement caching layer for frequently accessed user data
 // Requirements:
 // - Use Redis for cache storage
 // - 5 minute TTL for cache entries
 // - Fall back to database if cache miss
 // - Handle Redis connection errors gracefully
-async function getUserData(userId: string) {
-  // Implementation will go here
+async function getUserData(userId: string): Promise<User> {
+  const cacheKey = `user:${userId}`;
+  
+  try {
+    // Try to get from cache first
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+  } catch (error) {
+    console.error('Redis error:', error);
+    // Fall through to database
+  }
+  
+  // Cache miss or error - fetch from database
+  const user = await database.users.findById(userId);
+  
+  // Store in cache with TTL
+  try {
+    await redis.setex(cacheKey, 300, JSON.stringify(user));
+  } catch (error) {
+    console.error('Failed to cache user:', error);
+  }
+  
+  return user;
 }
 ```
 
@@ -399,16 +422,36 @@ Practice using context engineering tools
 
 ```typescript
 // Define these types to provide context:
-type TaskStatus = // TODO: What statuses should a task have?
-type Priority = // TODO: What priority levels?
+type TaskStatus = 'todo' | 'in_progress' | 'in_review' | 'completed' | 'blocked';
+type Priority = 'low' | 'medium' | 'high' | 'urgent';
 
 interface Task {
-  // TODO: What properties does a task need?
+  id: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: Priority;
+  assignee?: string;
+  dueDate?: Date;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-// Now implement:
+// Now implement with full type context:
 function createTask(data: Partial<Task>): Task {
-  // Copilot will suggest based on types
+  return {
+    id: crypto.randomUUID(),
+    title: data.title || 'Untitled Task',
+    description: data.description || '',
+    status: data.status || 'todo',
+    priority: data.priority || 'medium',
+    assignee: data.assignee,
+    dueDate: data.dueDate,
+    tags: data.tags || [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 }
 ```
 
@@ -420,14 +463,45 @@ function createTask(data: Partial<Task>): Task {
 
 ```typescript
 describe('formatCurrency', () => {
-  // TODO: Write test cases that define the behavior:
-  // - Handle positive numbers
-  // - Handle negative numbers  
-  // - Handle different currencies (USD, EUR, JPY)
-  // - Handle decimal places
+  it('should format positive numbers with USD', () => {
+    expect(formatCurrency(1234.56, 'USD')).toBe('$1,234.56');
+  });
+  
+  it('should format negative numbers with USD', () => {
+    expect(formatCurrency(-1234.56, 'USD')).toBe('-$1,234.56');
+  });
+  
+  it('should handle EUR currency', () => {
+    expect(formatCurrency(1234.56, 'EUR')).toBe('€1,234.56');
+  });
+  
+  it('should handle JPY without decimals', () => {
+    expect(formatCurrency(1234, 'JPY')).toBe('¥1,234');
+  });
+  
+  it('should handle custom decimal places', () => {
+    expect(formatCurrency(1234.5678, 'USD', 3)).toBe('$1,234.568');
+  });
 });
 
-// Then implement formatCurrency with full context
+// Implementation based on test specifications:
+function formatCurrency(
+  amount: number, 
+  currency: string, 
+  decimals?: number
+): string {
+  const symbols = { USD: '$', EUR: '€', JPY: '¥' };
+  const defaultDecimals = currency === 'JPY' ? 0 : 2;
+  const precision = decimals ?? defaultDecimals;
+  
+  const formatted = Math.abs(amount).toLocaleString('en-US', {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision
+  });
+  
+  const symbol = symbols[currency] || currency;
+  return amount < 0 ? `-${symbol}${formatted}` : `${symbol}${formatted}`;
+}
 ```
 
 ---
@@ -555,6 +629,601 @@ Apply what you've learned!
 
 ---
 
+# Advanced Context Engineering
+
+Beyond prompt engineering fundamentals
+
+---
+
+# Context Optimization Strategies
+
+<v-clicks>
+
+Moving beyond basic prompts to **systematic context management**:
+
+1. 🎯 **Token Optimization**: Reduce costs and improve response quality
+2. 📊 **Knowledge Modeling**: Structure information for better retrieval
+3. 🔧 **Tool Integration**: Extend AI capabilities with external functions
+4. 🔄 **Context Reduction**: Maintain relevant information across long conversations
+
+</v-clicks>
+
+<v-click>
+
+> "Effective context engineering isn't just about what you say—it's about managing what the AI remembers and accesses."
+
+</v-click>
+
+---
+
+# Token Optimization: Chat Reducers
+
+Manage conversation context to stay within token limits
+
+<v-clicks>
+
+### The Problem
+- LLMs have token limits (4K, 8K, 128K tokens)
+- Long conversations exceed limits
+- Costs scale with tokens used
+
+### Solution: Context Reduction Strategies
+
+1. **Sliding Window**: Keep only recent N messages
+2. **Summarization**: Compress old context into summaries
+3. **Selective Retention**: Keep important messages, discard routine ones
+4. **Role-Based Filtering**: Retain system/assistant messages, compress user messages
+
+</v-clicks>
+
+---
+
+# Implementing Chat Reducers
+
+```typescript
+interface Message {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+  tokens: number;
+  important?: boolean;
+}
+
+class ChatReducer {
+  constructor(private maxTokens: number = 4000) {}
+  
+  reduce(messages: Message[]): Message[] {
+    let totalTokens = messages.reduce((sum, m) => sum + m.tokens, 0);
+    
+    if (totalTokens <= this.maxTokens) {
+      return messages;
+    }
+    
+    // Strategy 1: Keep system message and recent messages
+    const system = messages.filter(m => m.role === 'system');
+    const important = messages.filter(m => m.important);
+    const recent = messages.slice(-10);
+    
+    // Strategy 2: Summarize middle messages
+    const middle = messages.slice(1, -10);
+    const summary = this.summarize(middle);
+    
+    return [
+      ...system,
+      summary,
+      ...important.filter(m => !recent.includes(m)),
+      ...recent
+    ];
+  }
+  
+  private summarize(messages: Message[]): Message {
+    // Call LLM to create concise summary
+    return {
+      role: 'system',
+      content: 'Summary of previous conversation: [key points]',
+      tokens: 100
+    };
+  }
+}
+```
+
+---
+
+# Token-Efficient Summarization Patterns
+
+<v-clicks>
+
+### Progressive Summarization
+```
+Original (1000 tokens) → Summary (250 tokens) → 
+Key Points (50 tokens) → Single Sentence (10 tokens)
+```
+
+### Hierarchical Compression
+```typescript
+// Level 1: Full detail (recent messages)
+"User asked about authentication. Explained JWT tokens, 
+ refresh tokens, and security best practices. User 
+ implemented solution successfully."
+
+// Level 2: Key facts (medium history)
+"Discussed: JWT auth implementation, security best practices"
+
+// Level 3: Minimal context (old history)
+"Auth: JWT"
+```
+
+### Selective Detail Retention
+- **Code blocks**: Keep in full
+- **Definitions**: Compress to key terms
+- **Examples**: Keep one, reference others
+- **Explanations**: Extract key points only
+
+</v-clicks>
+
+---
+
+# Knowledge Modeling for RAG
+
+Retrieval-Augmented Generation beyond vector search
+
+---
+
+# RAG Architecture Patterns
+
+<v-clicks>
+
+### Traditional RAG (Vector Similarity)
+```
+Query → Embed → Search Vectors → Retrieve → Context + Query → LLM
+```
+**Limitation**: Semantic similarity doesn't always mean relevance
+
+### Advanced RAG Strategies
+
+1. **Graph-Based RAG**: Model relationships between entities
+2. **Hybrid Search**: Combine keyword, semantic, and graph
+3. **Structured Content**: Use metadata and schemas
+4. **Multi-Stage Retrieval**: Filter → Rank → Rerank
+
+</v-clicks>
+
+---
+
+# Graph-Based Knowledge Modeling
+
+```typescript
+interface KnowledgeNode {
+  id: string;
+  type: 'concept' | 'document' | 'entity' | 'code';
+  content: string;
+  metadata: Record<string, any>;
+}
+
+interface KnowledgeEdge {
+  from: string;
+  to: string;
+  type: 'references' | 'implements' | 'depends_on' | 'related_to';
+  weight: number;
+}
+
+class KnowledgeGraph {
+  private nodes: Map<string, KnowledgeNode> = new Map();
+  private edges: KnowledgeEdge[] = [];
+  
+  // Find related content by traversing relationships
+  findRelated(nodeId: string, depth: number = 2): KnowledgeNode[] {
+    const visited = new Set<string>();
+    const result: KnowledgeNode[] = [];
+    
+    const traverse = (id: string, currentDepth: number) => {
+      if (currentDepth > depth || visited.has(id)) return;
+      visited.add(id);
+      
+      const node = this.nodes.get(id);
+      if (node) result.push(node);
+      
+      // Follow edges to connected nodes
+      this.edges
+        .filter(e => e.from === id || e.to === id)
+        .forEach(e => {
+          const nextId = e.from === id ? e.to : e.from;
+          traverse(nextId, currentDepth + 1);
+        });
+    };
+    
+    traverse(nodeId, 0);
+    return result;
+  }
+}
+```
+
+---
+
+# Hybrid RAG Implementation
+
+```typescript
+interface SearchResult {
+  content: string;
+  score: number;
+  source: 'vector' | 'keyword' | 'graph';
+}
+
+class HybridRAG {
+  async search(query: string): Promise<string[]> {
+    // 1. Vector similarity search
+    const vectorResults = await this.vectorSearch(query);
+    
+    // 2. Keyword/BM25 search
+    const keywordResults = await this.keywordSearch(query);
+    
+    // 3. Graph traversal from query entities
+    const entities = await this.extractEntities(query);
+    const graphResults = await this.graphSearch(entities);
+    
+    // 4. Fusion: Combine and re-rank results
+    const combined = this.fuseResults([
+      ...vectorResults,
+      ...keywordResults,
+      ...graphResults
+    ]);
+    
+    // 5. Rerank based on query intent
+    const reranked = await this.rerank(query, combined);
+    
+    // 6. Select top-k with diversity
+    return this.diversitySelect(reranked, 5);
+  }
+  
+  private fuseResults(results: SearchResult[]): SearchResult[] {
+    // Reciprocal Rank Fusion (RRF)
+    const scores = new Map<string, number>();
+    
+    results.forEach((result, rank) => {
+      const current = scores.get(result.content) || 0;
+      scores.set(result.content, current + 1 / (rank + 60));
+    });
+    
+    return Array.from(scores.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([content, score]) => ({
+        content,
+        score,
+        source: 'hybrid'
+      }));
+  }
+}
+```
+
+---
+
+# Structured Content Aggregation
+
+Beyond embeddings: Use document structure
+
+```typescript
+interface DocumentChunk {
+  content: string;
+  metadata: {
+    source: string;
+    section: string;
+    headings: string[];  // Hierarchical context
+    codeLanguage?: string;
+    timestamp?: Date;
+    author?: string;
+  };
+}
+
+class StructuredRetrieval {
+  // Retrieve with structural context
+  async retrieveWithContext(
+    query: string, 
+    filters: {
+      sections?: string[];
+      codeLanguage?: string;
+      dateRange?: [Date, Date];
+    }
+  ): Promise<string> {
+    const chunks = await this.search(query, filters);
+    
+    // Group by document and section
+    const grouped = this.groupByStructure(chunks);
+    
+    // Build hierarchical context
+    return this.buildContext(grouped);
+  }
+  
+  private buildContext(grouped: Map<string, DocumentChunk[]>): string {
+    let context = '';
+    
+    for (const [source, chunks] of grouped) {
+      context += `\n## From: ${source}\n`;
+      
+      // Include heading hierarchy
+      const sections = new Set(chunks.map(c => c.metadata.section));
+      sections.forEach(section => {
+        context += `\n### ${section}\n`;
+        const sectionChunks = chunks.filter(
+          c => c.metadata.section === section
+        );
+        context += sectionChunks.map(c => c.content).join('\n\n');
+      });
+    }
+    
+    return context;
+  }
+}
+```
+
+---
+
+# Tool Use for Context Optimization
+
+Extend AI capabilities with external tools
+
+---
+
+# Function Calling for Dynamic Context
+
+```typescript
+interface Tool {
+  name: string;
+  description: string;
+  parameters: {
+    type: 'object';
+    properties: Record<string, {
+      type: string;
+      description: string;
+    }>;
+    required: string[];
+  };
+}
+
+const tools: Tool[] = [
+  {
+    name: 'search_codebase',
+    description: 'Search the codebase for specific patterns or implementations',
+    parameters: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'The search query or pattern to find'
+        },
+        fileTypes: {
+          type: 'array',
+          description: 'File extensions to search in (e.g., [".ts", ".js"])'
+        }
+      },
+      required: ['query']
+    }
+  },
+  {
+    name: 'get_api_docs',
+    description: 'Retrieve documentation for a specific API or library',
+    parameters: {
+      type: 'object',
+      properties: {
+        libraryName: {
+          type: 'string',
+          description: 'Name of the library (e.g., "express", "react")'
+        },
+        method: {
+          type: 'string',
+          description: 'Specific method or function to document'
+        }
+      },
+      required: ['libraryName']
+    }
+  },
+  {
+    name: 'execute_code',
+    description: 'Run code snippets and return results for validation',
+    parameters: {
+      type: 'object',
+      properties: {
+        code: {
+          type: 'string',
+          description: 'Code to execute'
+        },
+        language: {
+          type: 'string',
+          description: 'Programming language (python, javascript, etc.)'
+        }
+      },
+      required: ['code', 'language']
+    }
+  }
+];
+```
+
+---
+
+# Tool-Augmented Context Pipeline
+
+```typescript
+class ToolAugmentedContext {
+  async processQuery(query: string): Promise<string> {
+    // 1. Analyze query to determine needed tools
+    const neededTools = await this.analyzeQueryForTools(query);
+    
+    // 2. Execute tools in parallel
+    const toolResults = await Promise.all(
+      neededTools.map(tool => this.executeTool(tool))
+    );
+    
+    // 3. Synthesize tool outputs into context
+    const augmentedContext = this.synthesizeContext(
+      query,
+      toolResults
+    );
+    
+    // 4. Add to conversation with proper formatting
+    return this.formatToolContext(augmentedContext);
+  }
+  
+  private formatToolContext(results: ToolResult[]): string {
+    let context = '## Available Context from Tools:\n\n';
+    
+    for (const result of results) {
+      context += `### ${result.toolName}\n`;
+      context += `${result.summary}\n\n`;
+      
+      if (result.codeSnippets) {
+        context += '```' + result.language + '\n';
+        context += result.codeSnippets.slice(0, 3).join('\n\n');
+        context += '\n```\n\n';
+      }
+      
+      if (result.references) {
+        context += `References: ${result.references.join(', ')}\n\n`;
+      }
+    }
+    
+    return context;
+  }
+}
+```
+
+---
+
+# Context Caching Strategies
+
+Reduce redundant token usage
+
+<v-clicks>
+
+### Prompt Caching
+```typescript
+// Cache static system prompts and context
+const cachedSystemPrompt = cache.get('system-prompt-v1') || {
+  role: 'system',
+  content: 'You are an expert software engineer...',
+  cache: true  // Provider-specific caching
+};
+
+// Reuse across multiple requests
+const responses = await Promise.all(
+  queries.map(q => llm.chat([
+    cachedSystemPrompt,  // Cached, not re-tokenized
+    { role: 'user', content: q }
+  ]))
+);
+```
+
+### Semantic Caching
+```typescript
+// Cache by semantic similarity, not exact match
+const semanticCache = new SemanticCache();
+
+const query = "How do I implement authentication?";
+const similar = await semanticCache.find(query, threshold: 0.95);
+
+if (similar) {
+  return similar.response;  // Return cached response
+} else {
+  const response = await llm.chat(query);
+  await semanticCache.store(query, response);
+  return response;
+}
+```
+
+</v-clicks>
+
+---
+
+# Context Window Management
+
+Strategic use of available context space
+
+```typescript
+interface ContextBudget {
+  systemPrompt: number;      // Fixed overhead
+  conversationHistory: number; // Sliding window
+  retrievedContext: number;   // RAG results
+  toolOutputs: number;        // Function results
+  responseReserve: number;    // Space for output
+}
+
+class ContextWindowManager {
+  private maxTokens: number = 8000;
+  
+  allocate(budget: Partial<ContextBudget>): ContextBudget {
+    const defaults = {
+      systemPrompt: 500,
+      responseReserve: 1500,
+    };
+    
+    const allocated = { ...defaults, ...budget };
+    
+    // Calculate remaining space
+    const used = allocated.systemPrompt + allocated.responseReserve;
+    const remaining = this.maxTokens - used;
+    
+    // Distribute remaining tokens
+    const parts = [
+      'conversationHistory',
+      'retrievedContext', 
+      'toolOutputs'
+    ].filter(k => !(k in allocated));
+    
+    const perPart = Math.floor(remaining / parts.length);
+    parts.forEach(part => {
+      allocated[part] = perPart;
+    });
+    
+    return allocated as ContextBudget;
+  }
+  
+  fit(content: string[], budget: number): string[] {
+    let tokens = 0;
+    const result: string[] = [];
+    
+    for (const item of content) {
+      const itemTokens = this.estimateTokens(item);
+      if (tokens + itemTokens > budget) break;
+      result.push(item);
+      tokens += itemTokens;
+    }
+    
+    return result;
+  }
+}
+```
+
+---
+
+# Best Practices for Advanced Context Engineering
+
+<v-clicks>
+
+### Token Optimization
+- ✅ Use chat reducers for long conversations
+- ✅ Implement progressive summarization
+- ✅ Cache static content
+- ✅ Monitor and optimize token usage
+
+### Knowledge Retrieval
+- ✅ Use hybrid search (vector + keyword + graph)
+- ✅ Preserve document structure
+- ✅ Implement multi-stage retrieval and reranking
+- ✅ Consider relationships, not just similarity
+
+### Tool Integration
+- ✅ Provide clear tool descriptions
+- ✅ Use tools to fetch just-in-time context
+- ✅ Validate tool outputs before adding to context
+- ✅ Format tool results consistently
+
+### Context Management
+- ✅ Budget context window strategically
+- ✅ Prioritize recent and important information
+- ✅ Use structured formats for better parsing
+- ✅ Test with real token limits
+
+</v-clicks>
+
+---
+
 # Best Practices Summary
 
 Key takeaways for effective context engineering
@@ -598,9 +1267,11 @@ Continue your learning journey
 <v-clicks>
 
 📚 **Further Reading:**
-- GitHub Copilot Documentation
-- Prompt Engineering Guide
-- Context Engineering Patterns
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
+- [Anthropic Prompt Engineering](https://docs.anthropic.com/claude/docs/prompt-engineering)
+- [LangChain RAG Tutorial](https://python.langchain.com/docs/use_cases/question_answering/)
+- [Pinecone Vector Database Docs](https://docs.pinecone.io/)
 
 🛠️ **Practice Tools:**
 - Polyglot Notebooks (included in /notebooks)
@@ -610,6 +1281,8 @@ Continue your learning journey
 🎯 **Next Steps:**
 - Complete all workshop exercises
 - Experiment with different patterns
+- Implement RAG with hybrid search
+- Build chat reducers for your applications
 - Share your learnings with the team
 
 </v-clicks>
