@@ -59,6 +59,33 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 ---
 
+### 3. Semantic Kernel: Prompt Engineering
+**File:** `03-semantic-kernel-prompts.ipynb`
+
+**Duration:** 45-60 minutes
+
+**Description:** Learn prompt engineering using Microsoft Semantic Kernel framework for building production AI applications.
+
+**Topics Covered:**
+- Zero-shot, one-shot, and few-shot prompting patterns
+- Creating semantic functions with templates
+- Native functions and plugins
+- Function chaining and composition
+- Building AI-powered applications
+- Integration with multiple AI providers
+
+**Languages Used:**
+- C#
+
+**Key Takeaways:**
+- How to use Semantic Kernel for structured AI integration
+- Choosing the right prompting pattern for your use case
+- Creating reusable, maintainable prompt templates
+- Combining AI with traditional code
+- Building production-ready AI features
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -129,14 +156,16 @@ This directory contains polyglot notebooks that provide interactive, executable 
    ↓
 4. Try the complex scenario at the end
    ↓
-5. Apply techniques to real projects
+5. Explore 03-semantic-kernel-prompts.ipynb
    ↓
-6. Return for reference as needed
+6. Apply techniques to real projects
+   ↓
+7. Return for reference as needed
 ```
 
 ### Time Investment
 
-- **First Pass:** 90-120 minutes for both notebooks
+- **First Pass:** 120-180 minutes for all three notebooks
 - **Practice Exercises:** 30-60 minutes additional
 - **Real Project Application:** Ongoing
 
@@ -219,6 +248,14 @@ By completing these notebooks, you will be able to:
 - [ ] Maintain consistency across multiple languages
 - [ ] Refine code incrementally
 - [ ] Combine multiple patterns for complex scenarios
+
+### After Notebook 3 (Semantic Kernel)
+- [ ] Understand zero-shot, one-shot, and few-shot patterns
+- [ ] Create semantic functions with templates
+- [ ] Build native functions and plugins
+- [ ] Chain functions for complex workflows
+- [ ] Integrate AI into production applications
+- [ ] Use Semantic Kernel with multiple AI providers
 
 ## 🔄 Extending the Notebooks
 

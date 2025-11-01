@@ -555,6 +555,559 @@ Apply what you've learned!
 
 ---
 
+# Prompt Engineering with Semantic Kernel
+
+A framework approach to AI application development
+
+---
+
+# What is Semantic Kernel?
+
+<v-clicks>
+
+**Semantic Kernel** is an open-source SDK that enables you to build AI agents and integrate Large Language Models (LLMs) into your applications.
+
+Key Features:
+- 🔧 **Multi-Language Support**: C#, Python, Java
+- 🧩 **Plugin Architecture**: Extensible and modular
+- 🔄 **Prompt Templates**: Reusable, parameterized prompts
+- 🤖 **Agentic Patterns**: Built-in support for AI agents
+- 🔌 **Connector System**: Works with multiple AI services
+
+</v-clicks>
+
+<v-click>
+
+> Semantic Kernel makes prompt engineering systematic and scalable
+
+</v-click>
+
+---
+
+# Prompt Template Engines
+
+Semantic Kernel supports multiple template formats
+
+<v-clicks>
+
+### 1. **YAML Format**
+```yaml
+name: SummarizeText
+description: Summarizes input text
+template: |
+  Summarize the following in {{$maxWords}} words:
+  {{$input}}
+```
+
+### 2. **Handlebars Templates**
+```handlebars
+{{#if userRole}}
+  As a {{userRole}}, please {{task}}
+{{else}}
+  Please {{task}}
+{{/if}}
+```
+
+### 3. **Prompty Format**
+```yaml
+---
+name: CodeReview
+model: gpt-4
+---
+system:
+Review this {{language}} code for {{focus}}
+```
+
+</v-clicks>
+
+---
+
+# Zero-Shot, One-Shot, Few-Shot Patterns
+
+Different approaches to prompt engineering
+
+---
+
+# Zero-Shot Prompting
+
+Ask the model without any examples
+
+```csharp
+var kernel = builder.Build();
+
+var prompt = """
+Translate the following English text to French:
+"Hello, how are you today?"
+""";
+
+var result = await kernel.InvokePromptAsync(prompt);
+Console.WriteLine(result);
+```
+
+<v-click>
+
+**Best for:**
+- Simple, well-defined tasks
+- Models with strong general knowledge
+- Quick prototyping
+
+</v-click>
+
+---
+
+# One-Shot Prompting
+
+Provide a single example to guide the model
+
+```csharp
+var prompt = """
+Convert product descriptions to JSON format.
+
+Example:
+Input: "Red cotton t-shirt, size M, $19.99"
+Output: {"color": "red", "material": "cotton", "type": "t-shirt", "size": "M", "price": 19.99}
+
+Now convert:
+Input: "Blue denim jeans, size 32, $49.99"
+Output:
+""";
+
+var result = await kernel.InvokePromptAsync(prompt);
+```
+
+<v-click>
+
+**Best for:**
+- Specific formats or patterns
+- Consistency in output structure
+- Reducing ambiguity
+
+</v-click>
+
+---
+
+# Few-Shot Prompting
+
+Multiple examples for better pattern recognition
+
+```python
+from semantic_kernel import Kernel
+
+prompt = """
+Classify customer feedback sentiment and extract key topics.
+
+Examples:
+Feedback: "Great product, fast shipping!"
+Sentiment: Positive | Topics: product quality, delivery speed
+
+Feedback: "Item arrived damaged, poor packaging"
+Sentiment: Negative | Topics: product condition, packaging
+
+Feedback: "Average quality, expected better for the price"
+Sentiment: Neutral | Topics: value, quality expectations
+
+Now classify:
+Feedback: "Excellent customer service, resolved my issue quickly"
+"""
+
+result = await kernel.invoke_prompt_async(prompt)
+```
+
+---
+
+# Few-Shot: When to Use
+
+<v-clicks>
+
+**Advantages:**
+- ✅ Better pattern learning
+- ✅ More consistent outputs
+- ✅ Handles complex transformations
+- ✅ Reduces need for fine-tuning
+
+**Considerations:**
+- ⚠️ Longer prompts (more tokens)
+- ⚠️ Choose diverse, representative examples
+- ⚠️ Balance: too few = inconsistent, too many = expensive
+
+**Rule of Thumb:** Start with 3-5 examples
+
+</v-clicks>
+
+---
+
+# Semantic Kernel: Kernel Builder Pattern
+
+Creating and configuring kernels
+
+```csharp
+using Microsoft.SemanticKernel;
+
+// Create kernel with builder pattern
+var builder = Kernel.CreateBuilder();
+
+// Add AI service
+builder.AddAzureOpenAIChatCompletion(
+    deploymentName: "gpt-4",
+    endpoint: "https://your-resource.openai.azure.com",
+    apiKey: "your-api-key"
+);
+
+// Add plugins
+builder.Plugins.AddFromType<TimePlugin>();
+builder.Plugins.AddFromType<MathPlugin>();
+
+// Build the kernel
+var kernel = builder.Build();
+```
+
+<v-click>
+
+**Key Concept:** The kernel orchestrates AI services, plugins, and prompts
+
+</v-click>
+
+---
+
+# Semantic Functions vs Native Functions
+
+Two ways to extend the kernel
+
+<v-clicks>
+
+### **Semantic Functions** (Prompt-based)
+```csharp
+var summarize = kernel.CreateFunctionFromPrompt("""
+Summarize the following text in {{$maxWords}} words:
+{{$input}}
+""");
+
+var result = await kernel.InvokeAsync(summarize, 
+    new() { ["input"] = longText, ["maxWords"] = "50" });
+```
+
+### **Native Functions** (Code-based)
+```csharp
+public class TextPlugin
+{
+    [KernelFunction]
+    public int CountWords(string text) 
+        => text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+}
+```
+
+</v-clicks>
+
+---
+
+# Chaining Functions Together
+
+Compose complex workflows
+
+```csharp
+// Define prompts
+var translate = kernel.CreateFunctionFromPrompt(
+    "Translate to {{$language}}: {{$input}}");
+
+var summarize = kernel.CreateFunctionFromPrompt(
+    "Summarize in 2 sentences: {{$input}}");
+
+// Chain execution
+var input = "Long English article text...";
+
+// Step 1: Translate
+var translated = await kernel.InvokeAsync(translate,
+    new() { ["input"] = input, ["language"] = "Spanish" });
+
+// Step 2: Summarize translated text
+var summary = await kernel.InvokeAsync(summarize,
+    new() { ["input"] = translated.ToString() });
+
+Console.WriteLine(summary);
+```
+
+---
+
+# Automatic Function Calling
+
+Let the LLM decide when to use tools
+
+```csharp
+// Define functions
+public class WeatherPlugin
+{
+    [KernelFunction, Description("Get current weather for a city")]
+    public string GetWeather(string city) 
+        => $"Weather in {city}: 72°F, Sunny";
+}
+
+// Add to kernel
+builder.Plugins.AddFromType<WeatherPlugin>();
+
+// Enable auto-function calling
+var settings = new OpenAIPromptExecutionSettings
+{
+    ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions
+};
+
+// LLM will automatically call WeatherPlugin when needed
+var result = await kernel.InvokePromptAsync(
+    "What's the weather in Seattle and should I bring an umbrella?",
+    new(settings)
+);
+```
+
+---
+
+# Prompt Engineering with Agents
+
+Semantic Kernel's agentic patterns
+
+```csharp
+#pragma warning disable SKEXP0110
+
+// Create an agent
+var agent = new ChatCompletionAgent
+{
+    Name = "ResearchAssistant",
+    Instructions = """
+        You are a helpful research assistant.
+        Use available tools to find accurate information.
+        Always cite your sources.
+        """,
+    Kernel = kernel
+};
+
+// Agent conversation
+var chat = new AgentGroupChat();
+
+await chat.AddChatMessageAsync(
+    new ChatMessageContent(AuthorRole.User, 
+        "What are the latest developments in quantum computing?")
+);
+
+await foreach (var message in chat.InvokeAsync(agent))
+{
+    Console.WriteLine($"{message.AuthorName}: {message.Content}");
+}
+```
+
+---
+
+# Multi-Agent Patterns
+
+Agents working together
+
+<v-clicks>
+
+**Use Cases:**
+- 🎭 **Role-based collaboration**: Different agents with specialized roles
+- 🔄 **Iterative refinement**: One agent drafts, another reviews
+- 🗳️ **Consensus building**: Multiple agents vote on solutions
+- 🎯 **Divide and conquer**: Break complex tasks across agents
+
+**Example Pattern:**
+```
+Researcher Agent → Drafter Agent → Reviewer Agent → Final Output
+```
+
+</v-clicks>
+
+---
+
+# Memory and Context Management
+
+Keeping conversation context
+
+```csharp
+using Microsoft.SemanticKernel.Memory;
+
+// Add memory to kernel
+var memoryBuilder = new MemoryBuilder();
+memoryBuilder.WithAzureOpenAITextEmbeddingGeneration(/*...*/);
+var memory = memoryBuilder.Build();
+
+// Save context
+await memory.SaveInformationAsync(
+    collection: "conversation",
+    id: "user-pref-001",
+    text: "User prefers concise responses"
+);
+
+// Retrieve relevant context
+var relevantMemories = memory.SearchAsync(
+    collection: "conversation",
+    query: "How should I format my response?",
+    limit: 3
+);
+
+// Use context in prompt
+var context = string.Join("\n", relevantMemories);
+var prompt = $"""
+    Context: {context}
+    
+    User question: {{$input}}
+    """;
+```
+
+---
+
+# Prompt Template Best Practices
+
+Tips for effective Semantic Kernel prompts
+
+<v-clicks>
+
+1. **Use Clear Variable Names**
+   ```
+   Good: {{$userRole}}, {{$targetLanguage}}
+   Bad: {{$x}}, {{$temp}}
+   ```
+
+2. **Provide Descriptions**
+   ```csharp
+   [KernelFunction, Description("Translates text to target language")]
+   ```
+
+3. **Validate Inputs**
+   ```csharp
+   if (string.IsNullOrEmpty(input))
+       throw new ArgumentException("Input cannot be empty");
+   ```
+
+4. **Version Your Prompts**
+   - Save prompt templates in source control
+   - Track changes and performance
+
+</v-clicks>
+
+---
+
+# RAG Pattern with Semantic Kernel
+
+Retrieval-Augmented Generation
+
+```csharp
+// 1. Index your documents
+await memory.SaveInformationAsync(
+    collection: "docs",
+    id: "doc-001",
+    text: "Your documentation content..."
+);
+
+// 2. Search for relevant context
+var query = "How do I configure authentication?";
+var relevantDocs = await memory.SearchAsync(
+    collection: "docs",
+    query: query,
+    limit: 3
+);
+
+// 3. Augment prompt with retrieved context
+var prompt = $"""
+    Based on the following documentation:
+    {string.Join("\n\n", relevantDocs)}
+    
+    Answer this question: {query}
+    """;
+
+var answer = await kernel.InvokePromptAsync(prompt);
+```
+
+---
+
+# Semantic Kernel: Integration Points
+
+Where SK fits in your application
+
+<v-clicks>
+
+- 🌐 **Web APIs**: Build AI-powered endpoints
+- 💬 **Chatbots**: Conversational interfaces
+- 🔧 **Automation**: Intelligent workflows
+- 📊 **Data Processing**: Extract, transform, analyze
+- 🧪 **Testing**: Generate test data and scenarios
+- 📝 **Content Generation**: Documents, summaries, translations
+
+**Key Advantage:** Same code works with multiple AI providers
+
+</v-clicks>
+
+---
+
+# From GitHub Copilot to Semantic Kernel
+
+How they complement each other
+
+<div class="grid grid-cols-2 gap-4">
+
+<div>
+
+### GitHub Copilot
+- 💻 Development-time assistance
+- 🎯 Code completion
+- 📝 Comment-driven generation
+- 🔄 Interactive coding
+
+**Best for:** Writing code faster
+
+</div>
+
+<div>
+
+### Semantic Kernel
+- 🏗️ Runtime AI integration
+- 🔌 Application-level AI features
+- 📦 Productionized AI
+- 🤖 Agent orchestration
+
+**Best for:** Building AI applications
+
+</div>
+
+</div>
+
+<v-click>
+
+**Use Together:** Use Copilot to write your SK code faster! 🚀
+
+</v-click>
+
+---
+
+# Hands-On: Try Semantic Kernel
+
+Getting started resources
+
+<v-clicks>
+
+📦 **Installation:**
+```bash
+# .NET
+dotnet add package Microsoft.SemanticKernel
+
+# Python
+pip install semantic-kernel
+
+# Java
+// Maven coordinates in docs
+```
+
+📚 **Learning Resources:**
+- [GitHub: microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
+- [Documentation](https://learn.microsoft.com/semantic-kernel)
+- [Sample Applications](https://github.com/microsoft/semantic-kernel/tree/main/samples)
+- [Community Discord](https://aka.ms/SKDiscord)
+
+🎯 **Next Steps:**
+- Check out `/dotnet/notebooks` from learn-sk repo
+- Try the samples and patterns
+- Build a simple AI agent
+
+</v-clicks>
+
+---
+
 # Best Practices Summary
 
 Key takeaways for effective context engineering
