@@ -59,6 +59,103 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 ---
 
+### 3. Prompt Engineering with GitHub Models ⭐ NEW
+**File:** `03-prompt-engineering-with-github-models.ipynb`
+
+**Duration:** 45-60 minutes
+
+**Description:** Practical prompt engineering using GitHub's Azure AI Inference service with real API calls.
+
+**Prerequisites:**
+- `GITHUB_TOKEN` environment variable set with GitHub Personal Access Token
+- Install: `pip install azure-ai-inference`
+
+**Topics Covered:**
+- Connecting to GitHub Models endpoint
+- Vague vs. specific prompts (with real API comparisons)
+- System messages for context setting
+- Few-shot learning patterns
+- Role-based prompting for specialized outputs
+- Contextual chaining in multi-turn conversations
+- Constraining outputs with clear requirements
+- Token usage tracking and cost optimization
+
+**Language Used:**
+- Python
+
+**Key Takeaways:**
+- Real-world API integration patterns
+- Practical cost management techniques
+- Measuring quality improvements
+- Production-ready prompt engineering
+
+---
+
+### 4. Context Optimization ⭐ NEW
+**File:** `04-context-optimization.ipynb`
+
+**Duration:** 60-90 minutes
+
+**Description:** Advanced techniques for optimizing context and managing token budgets.
+
+**Prerequisites:**
+- `GITHUB_TOKEN` environment variable
+- Install: `pip install azure-ai-inference`
+
+**Topics Covered:**
+- Token estimation and prediction
+- Chat reducers with sliding window strategy
+- Progressive summarization (hierarchical compression)
+- Context window management and allocation
+- Semantic caching for cost reduction
+- Complete optimization pipeline
+
+**Language Used:**
+- Python
+
+**Key Takeaways:**
+- Strategic token budget allocation
+- Conversation history compression
+- Cost reduction strategies (50-80% savings)
+- Scalable conversation management
+
+---
+
+### 5. RAG and Context Pipeline ⭐ NEW
+**File:** `05-rag-context-pipeline.ipynb`
+
+**Duration:** 60-90 minutes
+
+**Description:** Retrieval-Augmented Generation and the complete 6-stage context engineering pipeline.
+
+**Prerequisites:**
+- `GITHUB_TOKEN` environment variable
+- Install: `pip install azure-ai-inference`
+
+**Topics Covered:**
+- Simple RAG with retrieval
+- Hybrid search (keyword + metadata + recency)
+- Context rot detection and freshness monitoring
+- Content poisoning prevention and validation
+- Complete 6-stage pipeline:
+  1. Ingestion - Gather sources
+  2. Filtering - Remove unsafe content
+  3. Summarization - Compress information
+  4. Packing - Strategic ordering
+  5. Injection - Deliver to LLM
+  6. Evaluation - Measure quality
+
+**Language Used:**
+- Python
+
+**Key Takeaways:**
+- Production-ready RAG patterns
+- Safety and validation techniques
+- Context freshness management
+- End-to-end pipeline implementation
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -68,14 +165,25 @@ This directory contains polyglot notebooks that provide interactive, executable 
    ```
    code --install-extension ms-dotnettools.dotnet-interactive-vscode
    ```
-3. **.NET SDK 8.0+** - Required for polyglot notebooks runtime
+3. **.NET SDK 8.0+** - Required for polyglot notebooks runtime (notebooks 1-2)
    - Download from [dotnet.microsoft.com](https://dotnet.microsoft.com/download)
+
+### For Python Notebooks (3-5)
+
+1. **Python 3.8+** - Download from [python.org](https://python.org)
+2. **Azure AI Inference SDK**:
+   ```bash
+   pip install azure-ai-inference
+   ```
+3. **GitHub Token** - Set environment variable:
+   ```bash
+   export GITHUB_TOKEN="your_github_personal_access_token"
+   ```
 
 ### Optional but Recommended
 
 - **GitHub Copilot** - For trying techniques as you learn
-- **Python 3.8+** - For Python code cells
-- **Node.js 18+** - For JavaScript code cells
+- **Node.js 18+** - For JavaScript code cells (notebooks 1-2)
 
 ### Opening Notebooks
 
@@ -84,7 +192,9 @@ This directory contains polyglot notebooks that provide interactive, executable 
 3. Navigate to `notebooks/` directory
 4. Click on a `.ipynb` file
 5. VS Code will open it in notebook mode
-6. Select the `.NET Interactive` kernel when prompted
+6. Select the appropriate kernel:
+   - **Notebooks 1-2**: `.NET Interactive` kernel
+   - **Notebooks 3-5**: `Python 3` kernel
 
 ### Running Code Cells
 
@@ -129,14 +239,21 @@ This directory contains polyglot notebooks that provide interactive, executable 
    ↓
 4. Try the complex scenario at the end
    ↓
-5. Apply techniques to real projects
+5. Explore 03-prompt-engineering-with-github-models.ipynb
    ↓
-6. Return for reference as needed
+6. Learn optimization in 04-context-optimization.ipynb
+   ↓
+7. Master RAG in 05-rag-context-pipeline.ipynb
+   ↓
+8. Apply techniques to real projects
+   ↓
+9. Return for reference as needed
 ```
 
 ### Time Investment
 
-- **First Pass:** 90-120 minutes for both notebooks
+- **Notebooks 1-2 (Polyglot):** 90-120 minutes
+- **Notebooks 3-5 (Python/GitHub Models):** 150-240 minutes
 - **Practice Exercises:** 30-60 minutes additional
 - **Real Project Application:** Ongoing
 
