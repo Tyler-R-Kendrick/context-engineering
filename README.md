@@ -41,8 +41,7 @@ See `workshops/README.md` for detailed instructions.
 ├── slides.md                    # Main Slidev presentation
 ├── notebooks/                   # Interactive polyglot notebooks
 │   ├── 01-prompt-engineering-basics.ipynb
-│   ├── 02-advanced-prompt-patterns.ipynb
-│   └── 03-semantic-kernel-prompts.ipynb
+│   └── 02-advanced-prompt-patterns.ipynb
 ├── prompty/                     # Reusable prompt templates
 │   ├── code-review.prompty
 │   ├── implement-function.prompty
@@ -97,19 +96,7 @@ This repository is organized as a progressive learning experience:
 - Prompty templates
 - Workshop: Exercise 4
 
-### Phase 4: Semantic Kernel & Production AI
-- Framework-based prompt engineering
-- Zero-shot, one-shot, few-shot patterns
-- Semantic and native functions
-- Building production AI applications
-- Multi-provider AI integration
-
-**Resources:**
-- Presentation slides (Semantic Kernel section)
-- Notebook: `03-semantic-kernel-prompts.ipynb`
-- [learn-sk repository](https://github.com/Tyler-R-Kendrick/learn-sk)
-
-### Phase 5: Real-World Application
+### Phase 4: Real-World Application
 - Combining techniques
 - Team standards
 - Measuring impact
