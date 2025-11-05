@@ -1,22 +1,35 @@
 {
   "servers": {
     "playwright": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-playwright"
-      ],
-      "env": {
-        "PLAYWRIGHT_HEADLESS": "true",
-        "PLAYWRIGHT_BROWSER": "chromium"
-      }
+        "command": "npx",
+        "args": [
+            "@playwright/mcp@latest"
+        ],
+        "env": {
+            "PLAYWRIGHT_HEADLESS": "true",
+            "PLAYWRIGHT_BROWSER": "chromium"
+        }
+    },
+    "context7": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"]
+    },
+    "microsoft.docs.mcp": {
+        "type": "http",
+        "url": "https://learn.microsoft.com/api/mcp"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "serena": {
+        "command": "docker",
+        "args": ["run", "--rm", "-i", "--network", "host", "-v", "/path/to/your/projects:/workspaces/projects", "ghcr.io/oraios/serena:latest", "serena", "start-mcp-server", "--transport", "stdio"]
     },
     "chrome-devtools": {
-      "command": "python",
-      "args": [
-        "-m",
-        "mcp_server_chrome_devtools"
-      ],
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
       "env": {
         "CHROME_REMOTE_DEBUGGING_PORT": "9222"
       }
