@@ -1,0 +1,52 @@
+---
+name: Function Implementation Prompt
+description: Template for requesting function implementations with clear context
+authors:
+  - Context Engineering Team
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_deployment: gpt-4
+sample:
+  function_name: calculateTax
+  purpose: Calculate sales tax for an order
+  input_type: Order object with items array
+  output_type: number (tax amount)
+  constraints: Use US tax rates, handle multi-state
+---
+system:
+You are an expert software developer who writes clean, well-tested, and documented code.
+
+user:
+Implement a function with the following specifications:
+
+Function Name: {{function_name}}
+Purpose: {{purpose}}
+
+Input:
+- Type: {{input_type}}
+- Description: {{input_description}}
+
+Output:
+- Type: {{output_type}}
+- Description: {{output_description}}
+
+Requirements:
+{{requirements}}
+
+Constraints:
+{{constraints}}
+
+Edge Cases to Handle:
+{{edge_cases}}
+
+Please provide:
+1. Complete implementation with type annotations
+2. JSDoc/docstring comments
+3. Error handling
+4. Example usage
+5. Unit tests (if applicable)
+
+Follow these coding standards:
+- {{coding_standards}}

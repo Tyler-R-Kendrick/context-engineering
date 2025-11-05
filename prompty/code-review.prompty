@@ -1,0 +1,44 @@
+---
+name: Code Review Prompt
+description: Template for requesting code reviews with proper context
+authors:
+  - Context Engineering Team
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_deployment: gpt-4
+sample:
+  code: |
+    function processData(data) {
+      return data.map(x => x * 2);
+    }
+  focus: performance
+---
+system:
+You are an expert code reviewer with deep knowledge of software engineering best practices, security, and performance optimization.
+
+user:
+Please review the following code with a focus on {{focus}}:
+
+```
+{{code}}
+```
+
+Context:
+- Language: {{language}}
+- Framework: {{framework}}
+- Team standards: {{standards}}
+
+Review criteria:
+1. Code quality and readability
+2. Performance considerations
+3. Security vulnerabilities
+4. Best practices adherence
+5. Potential bugs or edge cases
+
+Please provide:
+- Specific issues found
+- Severity rating (Critical/High/Medium/Low)
+- Suggested improvements
+- Code examples where helpful

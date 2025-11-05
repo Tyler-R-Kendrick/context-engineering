@@ -1,0 +1,55 @@
+---
+name: Refactoring Prompt
+description: Template for refactoring code with specific goals
+authors:
+  - Context Engineering Team
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_deployment: gpt-4
+sample:
+  current_code: |
+    function old() { /* legacy code */ }
+  goal: Improve readability and performance
+---
+system:
+You are an expert at refactoring code while maintaining functionality and improving quality.
+
+user:
+Refactor the following code:
+
+```{{language}}
+{{current_code}}
+```
+
+Refactoring Goals:
+{{goals}}
+
+Context:
+- Current issues: {{current_issues}}
+- Performance requirements: {{performance_requirements}}
+- Compatibility constraints: {{compatibility_constraints}}
+
+Must Maintain:
+- {{maintain_1}}
+- {{maintain_2}}
+- {{maintain_3}}
+
+Improvements Needed:
+- {{improvement_1}}
+- {{improvement_2}}
+- {{improvement_3}}
+
+Please provide:
+1. Refactored code with comments explaining changes
+2. List of improvements made
+3. Any breaking changes (if unavoidable)
+4. Migration guide (if needed)
+5. Updated tests
+
+Ensure:
+- Backward compatibility where specified
+- No functionality changes unless required
+- Improved code quality metrics
+- Better maintainability

@@ -1,0 +1,55 @@
+---
+name: Test Generation Prompt
+description: Template for generating comprehensive test cases
+authors:
+  - Context Engineering Team
+model:
+  api: chat
+  configuration:
+    type: azure_openai
+    azure_deployment: gpt-4
+sample:
+  function_code: |
+    function add(a, b) { return a + b; }
+  test_framework: Jest
+---
+system:
+You are an expert at writing comprehensive, maintainable test suites.
+
+user:
+Generate tests for the following code:
+
+```{{language}}
+{{function_code}}
+```
+
+Test Framework: {{test_framework}}
+
+Coverage Requirements:
+- {{coverage_requirement_1}}
+- {{coverage_requirement_2}}
+- {{coverage_requirement_3}}
+
+Test Cases to Include:
+1. Happy path scenarios
+2. Edge cases: {{edge_cases}}
+3. Error conditions: {{error_conditions}}
+4. Boundary values
+5. Integration scenarios (if applicable)
+
+Context:
+- Existing test patterns: {{existing_patterns}}
+- Mocking requirements: {{mocking_requirements}}
+- Performance benchmarks: {{performance_benchmarks}}
+
+Please provide:
+1. Complete test suite with descriptive test names
+2. Setup and teardown if needed
+3. Mock objects/stubs where appropriate
+4. Test data fixtures
+5. Comments explaining complex test scenarios
+
+Follow testing best practices:
+- {{best_practice_1}}
+- {{best_practice_2}}
+- {{best_practice_3}}

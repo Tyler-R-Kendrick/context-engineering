@@ -1,0 +1,18 @@
+{
+  "name": "context-engineering",
+  "version": "1.0.0",
+  "description": "A collection of information about context engineering patterns and practices with examples to work through on your own.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "slidev",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@slidev/cli": "^52.6.0",
+    "@slidev/theme-default": "^0.25.0"
+  }
+}
