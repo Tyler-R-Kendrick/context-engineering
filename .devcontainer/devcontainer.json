@@ -1,0 +1,65 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "lts"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.11"
+		},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-playwright.playwright",
+				"ms-vscode.vscode-json",
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"ms-vscode.test-adapter-converter",
+				"bradlc.vscode-tailwindcss"
+			],
+			"settings": {
+				"mcp.servers": {
+					"playwright": {
+						"command": "npx",
+						"args": [
+							"@modelcontextprotocol/server-playwright"
+						],
+						"env": {
+							"PLAYWRIGHT_HEADLESS": "true",
+							"PLAYWRIGHT_BROWSER": "chromium"
+						}
+					},
+					"chrome-devtools": {
+						"command": "python",
+						"args": [
+							"-m", 
+							"mcp_server_chrome_devtools"
+						],
+						"env": {
+							"CHROME_REMOTE_DEBUGGING_PORT": "9222"
+						}
+					}
+				}
+			}
+		}
+	},
+	"postCreateCommand": ".devcontainer/setup.sh",
+	"forwardPorts": [3000, 8080, 9222],
+	"portsAttributes": {
+		"9222": {
+			"label": "Chrome DevTools",
+			"onAutoForward": "silent"
+		},
+		"3000": {
+			"label": "Slidev Dev Server",
+			"onAutoForward": "openBrowser"
+		}
+	},
+	"remoteEnv": {
+		"DISPLAY": ":99",
+		"PLAYWRIGHT_BROWSERS_PATH": "/ms-playwright"
+	}
+}

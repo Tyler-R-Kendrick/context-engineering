@@ -1,0 +1,20 @@
+# Development Dependencies for MCP Servers and Development Environment
+
+# Development and Testing Dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Jupyter Notebook Dependencies (for context engineering examples)
+jupyter>=1.0.0
+ipykernel>=6.0.0
+notebook>=7.0.0
+
+# Code formatting and linting
+autopep8>=2.0.0
+mypy>=1.0.0
+
+# Development utilities
+pre-commit>=3.0.0
+python-dotenv>=1.0.0

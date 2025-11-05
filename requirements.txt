@@ -1,0 +1,6 @@
+# Production Dependencies
+# Currently no production dependencies - this is a development/educational repository
+# Add production dependencies here as needed
+#
+# For development dependencies (MCP servers, testing tools, etc.), 
+# see requirements-dev.txt
