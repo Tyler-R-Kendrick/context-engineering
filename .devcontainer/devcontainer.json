@@ -20,11 +20,12 @@
 				"ms-vscode.test-adapter-converter",
 				"bradlc.vscode-tailwindcss"
 			],
-			"settings": {
-				"mcp.servers": {
+			"mcp": {
+				"servers": {
 					"playwright": {
 						"command": "npx",
 						"args": [
+							"-y",
 							"@modelcontextprotocol/server-playwright"
 						],
 						"env": {

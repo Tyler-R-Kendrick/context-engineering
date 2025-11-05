@@ -1,0 +1,25 @@
+{
+  "servers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-playwright"
+      ],
+      "env": {
+        "PLAYWRIGHT_HEADLESS": "true",
+        "PLAYWRIGHT_BROWSER": "chromium"
+      }
+    },
+    "chrome-devtools": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_server_chrome_devtools"
+      ],
+      "env": {
+        "CHROME_REMOTE_DEBUGGING_PORT": "9222"
+      }
+    }
+  }
+}
