@@ -35,26 +35,6 @@ src: slides/02-prompt-engineering.md
 ---
 
 ---
-src: slides/03-tools.md
----
-
----
-src: slides/04-advanced-patterns.md
----
-
----
-src: slides/05-workshop.md
----
-
----
-src: slides/06-context-optimization.md
----
-
----
-src: slides/07-rag-knowledge.md
----
-
----
 src: slides/08-implementation.md
 ---
 
