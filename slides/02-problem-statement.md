@@ -17,11 +17,16 @@ transition: slide-left
 
 </v-clicks>
 
+<!--
+Now that we know where context gets pulled from, we need to consider the problems inherent in this space.
+
+LLMs have several hard limits that bias their outputs.
+So we need to identify those constraints if we are to design well engineered solutions for them.
+-->
+
 ---
 
 # Constraint 1: Limited Attention Window
-
-<v-clicks>
 
 **Challenge**: Context must be prioritized because attention capacity is finite
 
@@ -36,13 +41,15 @@ transition: slide-left
 // LOW PRIORITY: Distant history, peripheral docs
 ```
 
-</v-clicks>
+<!--
+With current llm architectures, recall and attention need to be attentuated - with degrading performance around the middle of the attention window.
+
+Context must be structured and minimized to fit within these constraints.
+-->
 
 ---
 
 # Constraint 2: Unreliable Retrieval
-
-<v-clicks>
 
 **Challenge**: Inaccurate or noisy fetches degrade grounding
 
@@ -60,13 +67,18 @@ const results = await hybridSearch(query, {
 });
 ```
 
-</v-clicks>
+<!--
+A variety of retrieval techniques are available to model, index, and retrieve information from external sources - but they each come with their own host of issues.
+
+VectorRAG has the problem of local vs global.
+If you index a knoweledge base, user queries need to closely resemble the answers - otherwise, they will only pull back docs that are similar to the question - potentially reducing relevance.
+
+GraphRAG is good at reasoning about relationships to information for finding more relevant groupings of info.
+-->
 
 ---
 
 # Constraint 3: Sensitivity to Ordering
-
-<v-clicks>
 
 **Challenge**: Token placement affects recall strength
 
@@ -87,13 +99,13 @@ const references = loadReferences();
 const finalContext = "REMEMBER: Validate all inputs, use bcrypt...";
 ```
 
-</v-clicks>
+<!--
+Structure
+-->
 
 ---
 
 # Constraint 4: Context Rot
-
-<v-clicks>
 
 **Challenge**: Outdated or irrelevant context remains cached or reused
 
@@ -123,13 +135,13 @@ class ContextManager {
 }
 ```
 
-</v-clicks>
+<!--
+Context rot is a significant issue since llms have no concept of time. Because "freshness" of don't can't be reasoned about, techniques need to be implemented pull from sources that do effectively persist temporal data.
+-->
 
 ---
 
 # Constraint 5: Content Poisoning
-
-<v-clicks>
 
 **Challenge**: Malicious or low-quality input data biases future completions
 
@@ -163,13 +175,15 @@ class ContextValidator {
 }
 ```
 
-</v-clicks>
-
 ---
 
 # Context Pipeline Design
 
 A systematic approach to context management
+
+1. Ingestion
+1. Filtering (sanitization)
+1.
 
 ---
 
@@ -185,6 +199,11 @@ Gather all candidate sources
 ```typescript
 const rawContexts = await this.ingestion.gather(task);
 ```
+
+<!--
+The first step to building relevant context should be around how you pull and persist knowledge.
+Chunking strategies and different data modeling techniques can be used to enhance your ability to model knowledge for the relevant context.
+-->
 
 ---
 
@@ -232,24 +251,11 @@ const packedContext = this.packer.arrange(summarizedContexts);
 - Place critical info at boundaries
 - Optimize for model attention
 
----
+<!--
+packing can reorder according to structure.
+-->
 
-# Stage 5: Injection
-
-Deliver packed context through multiple channels
-
-- Direct prompt injection
-- Memory slots and system messages
-- Retrieval-augmented generation (RAG) layers
-
-```typescript
-// Injection happens in client code
-await this.injector.deliver(packedContext, target);
-```
-
----
-
-# Stage 6: Evaluation
+# Stage 5: Evaluation
 
 Continuously measure quality and freshness
 
@@ -267,8 +273,6 @@ const quality = await this.evaluator.assess(output, context);
 # Lost-in-the-Middle Mitigation
 
 Research-backed strategies for context placement
-
-<v-clicks>
 
 **Research Finding**: Models struggle to recall information from the middle of long contexts
 
@@ -293,15 +297,9 @@ function arrangeContext(items: ContextItem[]): string {
 }
 ```
 
-**Result**: 30-40% improvement in recall for critical information
-
-</v-clicks>
-
 ---
 
 # Interspersed Repetition
-
-<v-clicks>
 
 **Research Finding**: Periodic repetition refreshes attention and prevents decay
 
@@ -334,7 +332,3 @@ class RepetitionManager {
   }
 }
 ```
-
-**Frequency**: Every 200-300 tokens for critical constraints
-
-</v-clicks>

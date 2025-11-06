@@ -24,15 +24,13 @@ layout: default
 
 # Context & Prompt Engineering
 
-> "The quality of AI assistance is directly proportional to the quality of context provided."
 
-<v-click>
 
 > "Prompt Engineering asks what should a user write; Context Engineering asks what should a model read."
 
-</v-click>
-
 <!--
+> "The quality of AI assistance is directly proportional to the quality of context provided."
+
 You might have heard of "prompt engineering" - and yes, that's related. But there's an important distinction we're going to explore today.
 
 **Prompt engineering** asks: "What should the *user* write to get a good result?" - with an understanding of how llms behave and reason.

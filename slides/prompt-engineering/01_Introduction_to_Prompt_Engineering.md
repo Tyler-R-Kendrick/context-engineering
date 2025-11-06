@@ -23,66 +23,6 @@ style: |
 
 ---
 
-<!-- _class: 'title-slide' -->
-<!-- _paginate: skip -->
-
-# 1. Introduction to Prompt Engineering
-
-- **Definition**: Crafting effective prompts to guide AI models toward optimal outputs.
-- **Importance**:
-  - Enhances AI performance through clear instructions and context.
-  - Ensures accurate, relevant, and safe AI interactions.
-  - Improves control and predictability of AI responses.
-
-<!--
-Speaker Notes:
-Welcome to the Prompt Engineering workshop! This module sets the foundation for everything we'll cover today. 
-
-Key talking points:
-- Prompt engineering is about being intentional with how we communicate with AI
-- It's not magic - it's a skill that can be learned and improved
-- Better prompts = better results
-- This skill is becoming essential in modern software development
-
-Take a moment to set context: "Over the next few hours, we'll learn practical techniques that will help you get more value from AI tools in your daily work."
--->
-
-
-
----
-
-## Prerequisites
-- Access to an AI language model supported by Azure Inference Services, OpenAI, or OLLAMA.
-- Visual Studio Code or Codespaces.
-- AI Toolkit VS Code Extension ([ms-windows-ai-studio.windows-ai-studio](vscode:extension/ms-windows-ai-studio.windows-ai-studio)).
-
-<!--
-Speaker Notes:
-Before diving deep, let's make sure everyone has the tools they need.
-- Most of you probably already have these
-- The AI Toolkit Extension is helpful but optional for this workshop
-- We'll be using examples from multiple platforms so you can apply these techniques anywhere
--->
-
-
-
----
-
-**Learning Objectives**
-- Define prompt engineering and explain its significance in enterprise AI scenarios.
-- Identify the key components and types of prompts.
-- Structure prompts for clarity, safety, and effectiveness.
-- Optimize prompts using measurable rubrics and evaluation metrics.
-
-<!--
-Speaker Notes:
-These are the outcomes we want you to achieve by the end of this module. Don't worry if they sound ambitious - we'll break them down throughout the workshop. Each of these objectives represents a practical skill you can apply immediately after learning it.
--->
-
-
-
----
-
 ## Summary
 
 This module on prompt engineering is designed for developers working in enterprise environments who want to master prompt engineering for AI systems. By the end of this section, you will be able to:
@@ -95,22 +35,6 @@ This module on prompt engineering is designed for developers working in enterpri
 Throughout the workshop, you will use Semantic Kernel and Prompty to design, test, and optimize prompts against measurable rubrics.
 
 ---
-
-## Table of Contents
-
-| # | Module | Time | Summary |
-|---|--------|------|---------|
-| 1 | [Introduction to Prompt Engineering](./01_Introduction_to_Prompt_Engineering.md) | 15min | Core concepts, importance, and objectives. |
-| 2 | [Types of Prompts](./02_Types_of_Prompts.md) | 15min | Overview of prompt types. |
-| 3 | [Anatomy of an Effective Prompt](./03_Anatomy_of_an_Effective_Prompt.md) | 15min | Required and optional prompt components. |
-| 4 | [Prompt Engineering Techniques](./04_Prompt_Engineering_Techniques.md) | 30min | Basic and advanced techniques, parameter tuning. |
-| 5 | [Practical Use Cases and Examples](./05_Practical_Use_Cases_and_Examples.md) | 20min | Real-world applications across scenarios. |
-| 6 | [Best Practices for Effective Prompts](./06_Best_Practices_for_Effective_Prompts.md) | 15min | Guidelines for clarity, context, and iteration. |
-| 7 | [Testing and Evaluation Strategies](./07_Testing_and_Evaluation_Strategies.md) | 15min | Methods for evaluating prompt quality. |
-| 8 | [Safety, Ethics, and Fallback Responses](./08_Safety_Ethics_and_Fallback_Responses.md) | 20min | Handling sensitive content and fallback. |
-| 9 | [Resources for Further Learning](./09_Resources_for_Further_Learning.md) | 10min | Documentation and training resources. |
-
---- 
 
 ### Install the AI Toolkit VS Code Extension
 
