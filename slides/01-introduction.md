@@ -5,45 +5,6 @@ lineNumbers: true
 transition: slide-left
 ---
 
-# Why Context Matters
-
-<div class="grid grid-cols-2 gap-4">
-
-<div>
-
-## Without Good Context
-```
-"Make this better"
-```
-- Vague and ambiguous
-- Unclear goals
-- Poor results
-
-</div>
-
-<div>
-
-<v-clicks>
-
-## With Good Context
-```
-"Refactor this authentication function 
-to use async/await pattern, maintain 
-backward compatibility, and add error 
-handling for network timeouts"
-```
-- Specific and clear
-- Defined constraints
-- Better outcomes
-
-</v-clicks>
-
-</div>
-
-</div>
-
----
-
 # Context Engineering Fundamentals
 
 The foundation of effective context engineering
@@ -58,48 +19,87 @@ Five types of context that influence AI behavior
 
 ### 1. Instructional Context
 Directives, goals, constraints, and acceptance criteria
-```typescript
-// GOAL: Implement user authentication with JWT
-// CONSTRAINTS: Must support refresh tokens, 15min expiry
-// ACCEPTANCE: Pass all security tests, handle edge cases
+```yaml
+goal: Implement user authentication with JWT
+constraints:
+  - Must support refresh tokens
+  - 15min expiry
+acceptance:
+  - Pass all security tests
+  - Handle edge cases
 ```
+
+<!--
+Start with the most direct form of context - explicit instructions. Instructions should emphasize  clear goals and constraints that help AI systems understand exactly what you want.
+-->
 
 ### 2. Environmental Context
 Active code, related modules, tests, and documentation
-```typescript
-// Related: UserRepository.ts, AuthService.ts
-// Tests: auth.test.ts (see line 45-67)
-// Docs: docs/authentication.md
+```yaml
+related:
+  - UserRepository.ts
+  - AuthService.ts
+tests:
+  - file: auth.test.ts
+    lines: 45-67
+docs:
+  - docs/authentication.md
 ```
 
-</v-clicks>
-
----
-
-# Categories of Context (continued)
-
-<v-clicks>
+<!-- 
+Environmental context provides the surrounding landscape. Related files, test references, and documentation helps AI systems understand the codebase patterns and existing implementations. This context prevents hallucinations and ensures consistency.
+-->
 
 ### 3. Memory Context
 Condensed history from previous interactions
-```typescript
-// Previous session: Discussed JWT structure, decided on RS256
-// User preference: Functional style, comprehensive error handling
+```yaml
+previousSession:
+  - Discussed JWT structure
+  - Decided on RS256
+userPreference:
+  - Functional style
+  - Comprehensive error handling
 ```
 
+<!-- 
+Memory context builds continuity across conversations. Storing the historical context of an ongoing interaction helps to steer generations towards a more correct trajectory with real-time learning strategies.
+-->
+
 ### 4. Retrieved Context
-Dynamically fetched references or embeddings from search/vector stores
-```typescript
-// Retrieved from codebase: Similar auth pattern in AdminAuth.ts
-// Retrieved from docs: OAuth2 integration guide
+Dynamically fetched references or embeddings from external knowledge (RAG)
+```yaml
+retrievedFromCodebase:
+  - similarPattern: auth pattern in AdminAuth.ts
+retrievedFromDatabase:
+  - relatedNodes: graph nodes associated with a user identity.
+retrievedFromDocs:
+  - guide: OAuth2 integration guide
 ```
+
+<!-- 
+Retrieved context represents dynamic, on-demand information pulled from search engines, vector databases, or other knowledge stores. This scales context beyond what you manually provide and enables AI to find and apply similar patterns from the broader scope of knoweledge relevant for your domain.
+-->
 
 ### 5. Structural Context
 Layout, ordering, and repetition patterns that shape model attention
-```typescript
-// KEY REQUIREMENT (repeated): Must validate email format
-// CRITICAL: Handle network timeouts gracefully
-// REMINDER: Use existing error codes from ErrorCodes.ts
+```yaml
+keyRequirement:
+  description: Must validate email format
+  priority: repeated
+critical:
+  description: Handle network timeouts gracefully
+reminder:
+  description: Use existing error codes from ErrorCodes.ts
 ```
 
+<!--
+Structural context uses formatting, ordering, and repetition to guide model attention.
+HOW you present information matters as much as WHAT you present.
+Repeated items, keywords in caps, and logical ordering all influence which details the model prioritizes in its reasoning.
+-->
+
 </v-clicks>
+
+<!--
+Each of these categories can be optimized through modification of the RAW context. To better understand the value proposition of **context** engineering over **prompt** engineering, we'll first show you how to do prompt engereering yourself.
+-->

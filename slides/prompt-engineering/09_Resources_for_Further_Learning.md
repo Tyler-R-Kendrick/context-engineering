@@ -26,22 +26,6 @@ style: |
 
 # Resources for Further Learning
 
-## Prerequisites
-Complete Safety, Ethics, and Fallback Responses module.
-
-## Learning Objectives
-Identify key resources for deepening prompt engineering expertise.
-
----
-
-## Key Concepts
-- Official documentation and guides
-- Toolsets and frameworks
-- Academic research and papers
-- Hands-on training notebooks
-
----
-
 ## References & Links
 
 To deepen your understanding and expertise in prompt engineering, it is crucial to explore official documentation, research papers, and take advantage of hands-on training courses. Below are curated resources spanning official guides, notebooks, academic papers, and platform documentation.
@@ -58,24 +42,19 @@ To deepen your understanding and expertise in prompt engineering, it is crucial 
   [https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design)  
   Comprehensive introduction to prompt engineering, including best practices and hands-on examples for deploying prompts within Vertex AI.
 
----
-
-### Toolsets
-
-- **Prompty**
-- **Prompt Flow**
-- **Prompt Pex**
-- **DSPy**
+- **Anthropic Interactive Prompt Engineering**
+[https://github.com/anthropics/prompt-eng-interactive-tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
+Each lesson has an "Example Playground" area at the bottom where you are free to experiment with the examples in the lesson and see for yourself how changing prompts can change Claude's responses. There is also an answer key.
 
 ---
 
 ### Key Papers and Further Reading
-- Zero-shot Learning (Wei et al., 2023)
-- Few-shot Learning (Brown et al., 2023)
-- Sketch-of-Thought ()
-- Take a Step Back: Reasoning via Abstraction (Zheng et al., 2023)
-- Chain of Thought Prompting (Wei et al., 2023)
-- Self Consistency in CoT (Wang et al., 2023)
-- Tree of Thoughts (Yao et al., 2023)
-- ReAct: Reason + Act (Yao et al., 2023)
-- Automatic Prompt Engineering (Zhou et al., 2023)
+
+- [Zero-shot Learning (Wei et al., 2023)](https://arxiv.org/abs/2109.01652)
+- [Few-shot Learning (Brown et al., 2023)](https://arxiv.org/abs/2005.14165)
+- [Take a Step Back: Reasoning via Abstraction (Zheng et al., 2023)](https://arxiv.org/html/2310.06117v2)
+- [Chain of Thought Prompting (Wei et al., 2023)](https://arxiv.org/abs/2201.11903)
+- [Self Consistency in CoT (Wang et al., 2023)](https://arxiv.org/abs/2203.11171)
+- [Sketch-of-Thought](https://arxiv.org/html/2503.05179v1)
+- [Tree of Thoughts (Yao et al., 2023)](https://arxiv.org/abs/2305.10601)
+- [Automatic Prompt Engineering (Zhou et al., 2023)](https://arxiv.org/abs/2211.01910)

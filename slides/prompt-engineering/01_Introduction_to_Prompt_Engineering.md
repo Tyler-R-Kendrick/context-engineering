@@ -34,12 +34,37 @@ style: |
   - Ensures accurate, relevant, and safe AI interactions.
   - Improves control and predictability of AI responses.
 
+<!--
+Speaker Notes:
+Welcome to the Prompt Engineering workshop! This module sets the foundation for everything we'll cover today. 
+
+Key talking points:
+- Prompt engineering is about being intentional with how we communicate with AI
+- It's not magic - it's a skill that can be learned and improved
+- Better prompts = better results
+- This skill is becoming essential in modern software development
+
+Take a moment to set context: "Over the next few hours, we'll learn practical techniques that will help you get more value from AI tools in your daily work."
+-->
+
+
+
 ---
 
 ## Prerequisites
 - Access to an AI language model supported by Azure Inference Services, OpenAI, or OLLAMA.
 - Visual Studio Code or Codespaces.
 - AI Toolkit VS Code Extension ([ms-windows-ai-studio.windows-ai-studio](vscode:extension/ms-windows-ai-studio.windows-ai-studio)).
+
+<!--
+Speaker Notes:
+Before diving deep, let's make sure everyone has the tools they need.
+- Most of you probably already have these
+- The AI Toolkit Extension is helpful but optional for this workshop
+- We'll be using examples from multiple platforms so you can apply these techniques anywhere
+-->
+
+
 
 ---
 
@@ -48,6 +73,13 @@ style: |
 - Identify the key components and types of prompts.
 - Structure prompts for clarity, safety, and effectiveness.
 - Optimize prompts using measurable rubrics and evaluation metrics.
+
+<!--
+Speaker Notes:
+These are the outcomes we want you to achieve by the end of this module. Don't worry if they sound ambitious - we'll break them down throughout the workshop. Each of these objectives represents a practical skill you can apply immediately after learning it.
+-->
+
+
 
 ---
 
