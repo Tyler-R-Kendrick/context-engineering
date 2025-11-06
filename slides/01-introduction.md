@@ -1,21 +1,18 @@
 ---
 theme: default
+layout: intro
 highlighter: shiki
 lineNumbers: true
 transition: slide-left
 ---
 
-# Context Engineering Fundamentals
-
-The foundation of effective context engineering
-
----
-
-# Categories of Context
+## Categories of Context
 
 Five types of context that influence AI behavior
 
-<v-clicks>
+<v-switch>
+
+<template v-slot:1>
 
 ### 1. Instructional Context
 Directives, goals, constraints, and acceptance criteria
@@ -32,6 +29,10 @@ acceptance:
 <!--
 Start with the most direct form of context - explicit instructions. Instructions should emphasize  clear goals and constraints that help AI systems understand exactly what you want.
 -->
+
+</template>
+
+<template v-slot:2>
 
 ### 2. Environmental Context
 Active code, related modules, tests, and documentation
@@ -50,6 +51,10 @@ docs:
 Environmental context provides the surrounding landscape. Related files, test references, and documentation helps AI systems understand the codebase patterns and existing implementations. This context prevents hallucinations and ensures consistency.
 -->
 
+</template>
+
+<template v-slot:3>
+
 ### 3. Memory Context
 Condensed history from previous interactions
 ```yaml
@@ -65,6 +70,10 @@ userPreference:
 Memory context builds continuity across conversations. Storing the historical context of an ongoing interaction helps to steer generations towards a more correct trajectory with real-time learning strategies.
 -->
 
+</template>
+
+<template v-slot:4>
+
 ### 4. Retrieved Context
 Dynamically fetched references or embeddings from external knowledge (RAG)
 ```yaml
@@ -79,6 +88,10 @@ retrievedFromDocs:
 <!-- 
 Retrieved context represents dynamic, on-demand information pulled from search engines, vector databases, or other knowledge stores. This scales context beyond what you manually provide and enables AI to find and apply similar patterns from the broader scope of knoweledge relevant for your domain.
 -->
+
+</template>
+
+<template v-slot:5>
 
 ### 5. Structural Context
 Layout, ordering, and repetition patterns that shape model attention
@@ -98,7 +111,9 @@ HOW you present information matters as much as WHAT you present.
 Repeated items, keywords in caps, and logical ordering all influence which details the model prioritizes in its reasoning.
 -->
 
-</v-clicks>
+</template>
+
+</v-switch>
 
 <!--
 Each of these categories can be optimized through modification of the RAW context. To better understand the value proposition of **context** engineering over **prompt** engineering, we'll first show you how to do prompt engereering yourself.

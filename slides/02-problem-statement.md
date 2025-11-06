@@ -171,57 +171,96 @@ class ContextValidator {
 
 A systematic approach to context management
 
-<v-clicks>
+---
 
-### Stage 1: Ingestion
-Gather all candidate sources (code, specs, notes, history)
+# Stage 1: Ingestion
 
-### Stage 2: Filtering
-Remove redundant, irrelevant, or unsafe material to prevent poisoning
+Gather all candidate sources
 
-### Stage 3: Summarization
-Condense large sections to preserve key information
+- Code files and modules
+- Specifications and requirements
+- Notes and documentation
+- Historical context and conversations
 
-### Stage 4: Packing
-Arrange segments to emphasize importance and flow
-
-### Stage 5: Injection
-Deliver packed context through prompts, memory slots, or retrieval layers
-
-### Stage 6: Evaluation
-Continuously measure output quality and context freshness to detect rot
-
-</v-clicks>
+```typescript
+const rawContexts = await this.ingestion.gather(task);
+```
 
 ---
 
-# Pipeline Implementation Example
+# Stage 2: Filtering
+
+Remove redundant, irrelevant, or unsafe material to prevent poisoning
+
+- Strip sensitive information
+- Remove duplicates
+- Eliminate noise
+- Verify data integrity
 
 ```typescript
-class ContextPipeline {
-  async process(task: Task): Promise<PackedContext> {
-    // Stage 1: Ingestion
-    const rawContexts = await this.ingestion.gather(task);
-    
-    // Stage 2: Filtering
-    const filteredContexts = this.filter.process(rawContexts);
-    
-    // Stage 3: Summarization
-    const summarizedContexts = await this.summarizer.process(
-      filteredContexts, 
-      maxTokens: 2000
-    );
-    
-    // Stage 4: Packing
-    const packedContext = this.packer.arrange(summarizedContexts);
-    
-    // Stage 5: Injection happens in client code
-    // Stage 6: Evaluation happens post-generation
-    
-    return packedContext;
-  }
-}
+const filteredContexts = this.filter.process(rawContexts);
 ```
+
+---
+
+# Stage 3: Summarization
+
+Condense large sections to preserve key information
+
+```typescript
+const summarizedContexts = await this.summarizer.process(
+  filteredContexts, 
+  { maxTokens: 2000 }
+);
+```
+
+- Preserve essential details
+- Reduce token overhead
+- Maintain semantic meaning
+
+---
+
+# Stage 4: Packing
+
+Arrange segments to emphasize importance and flow
+
+```typescript
+const packedContext = this.packer.arrange(summarizedContexts);
+```
+
+- Order by relevance
+- Place critical info at boundaries
+- Optimize for model attention
+
+---
+
+# Stage 5: Injection
+
+Deliver packed context through multiple channels
+
+- Direct prompt injection
+- Memory slots and system messages
+- Retrieval-augmented generation (RAG) layers
+
+```typescript
+// Injection happens in client code
+await this.injector.deliver(packedContext, target);
+```
+
+---
+
+# Stage 6: Evaluation
+
+Continuously measure quality and freshness
+
+```typescript
+const quality = await this.evaluator.assess(output, context);
+```
+
+- Measure output quality
+- Detect context staleness
+- Identify degradation
+- Trigger refresh cycles
 
 ---
 
