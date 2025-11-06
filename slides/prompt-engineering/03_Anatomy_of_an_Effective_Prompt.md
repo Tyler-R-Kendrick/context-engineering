@@ -74,8 +74,6 @@ Without a clear core task, all the other components don't matter.
 Pro tip: If you're struggling to define your core task, you're not ready to ask the model yet. Step back and think about what you really need.
 -->
 
-
-
 ---
 
 ### System Instructions
@@ -96,8 +94,6 @@ They're optional, but they often dramatically improve results.
 Use them when you want consistency in style or tone.
 Real-world example: "You are a code reviewer focused on performance and security. Review this code and highlight any issues."
 -->
-
-
 
 ---
 

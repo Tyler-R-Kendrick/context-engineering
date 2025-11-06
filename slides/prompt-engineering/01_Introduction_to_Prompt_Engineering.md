@@ -10,7 +10,7 @@ tags:
 marp: true
 theme: default
 paginate: true
-layout: title
+layout: intro
 
 header: Introduction to Prompt Engineering
 footer: "© Microsoft Corporation. All rights reserved."
