@@ -21,4 +21,4 @@ Define specialized Copilot Custom Agents (or instruction files for other IDEs) t
 ## Further Reading
 - [Custom agent patterns](../slides/github-copilot-context/custom_agents.md)
 - [Agent instruction checklist](../slides/github-copilot-context/agents_instructions.md#agent-instruction-checklist)
-- [Advanced theory recap](../slides/10-advanced-theory.md)
+- [Advanced theory recap](../slides/01-problem-statement.md)

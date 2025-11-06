@@ -5,13 +5,21 @@ lineNumbers: true
 transition: slide-left
 ---
 
-# Core Problems in Context Engineering
+# Problem Statement: Context Engineering Failure Modes
 
-Understanding the fundamental challenges
+<v-clicks>
+
+**Premise**: Even the best-crafted prompts collapse when the upstream context pipeline misallocates attention, retrieves noise, or recycles stale knowledge.
+
+- Large language models inherit hard limits on attention, recall, and trust—without mitigation, they surface brittle or biased outputs.
+- Engineering teams need a defensible strategy for what enters the window, how it is ordered, and how long it remains authoritative.
+- Academic evaluation shows that failure to control these parameters drives the majority of hallucination and compliance regressions.
+
+</v-clicks>
 
 ---
 
-# Problem 1: Limited Attention Window
+# Constraint 1: Limited Attention Window
 
 <v-clicks>
 
@@ -32,7 +40,7 @@ Understanding the fundamental challenges
 
 ---
 
-# Problem 2: Unreliable Retrieval
+# Constraint 2: Unreliable Retrieval
 
 <v-clicks>
 
@@ -56,7 +64,7 @@ const results = await hybridSearch(query, {
 
 ---
 
-# Problem 3: Sensitivity to Ordering
+# Constraint 3: Sensitivity to Ordering
 
 <v-clicks>
 
@@ -83,7 +91,7 @@ const finalContext = "REMEMBER: Validate all inputs, use bcrypt...";
 
 ---
 
-# Problem 4: Context Rot
+# Constraint 4: Context Rot
 
 <v-clicks>
 
@@ -119,7 +127,7 @@ class ContextManager {
 
 ---
 
-# Problem 5: Content Poisoning
+# Constraint 5: Content Poisoning
 
 <v-clicks>
 

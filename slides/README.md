@@ -7,16 +7,11 @@ This folder contains the presentation slides for "Context Engineering for GitHub
 | File | Content | Slides | External References |
 |------|---------|--------|-------------------|
 | [00-title.md](00-title.md) | Title and introduction | 1-2 | - |
-| [01-introduction.md](01-introduction.md) | What is Context Engineering | 3-7 | - |
-| [02-prompt-engineering.md](02-prompt-engineering.md) | Prompt Engineering Fundamentals | 8-20 | **🔗 [Workshop](prompt-engineering/)** (9 modules, 3hrs) |
-| [03-tools.md](03-tools.md) | Tools for Context Engineering | 21-32 | - |
-| [04-advanced-patterns.md](04-advanced-patterns.md) | Advanced Patterns | 33-40 | **🔗 [Advanced Techniques](prompt-engineering/)** (Reasoning, RAG, Parameters) |
-| [05-workshop.md](05-workshop.md) | Workshop Scenarios | 41-49 | **🔗 [Practical Use Cases](prompt-engineering/05_Practical_Use_Cases_and_Examples.md)** |
-| [06-context-optimization.md](06-context-optimization.md) | Context Optimization Strategies | 50-70 | **🔗 [RAG & Testing](prompt-engineering/)** (Modules 4.3, 7) |
-| [07-rag-knowledge.md](07-rag-knowledge.md) | RAG and Knowledge Modeling | 71-85 | - |
-| [08-implementation.md](08-implementation.md) | Implementation Patterns | 86-95 | - |
-| [09-summary.md](09-summary.md) | Summary and Best Practices | 96-100 | **🔗 [Best Practices & Safety](prompt-engineering/)** (Modules 6, 8) |
-| [10-advanced-theory.md](10-advanced-theory.md) | Advanced Theory and Core Problems | 101-120 | - |
+| [01-problem-statement.md](01-problem-statement.md) | Problem statement & core failure modes (lead section) | 3-22 | - |
+| [02-introduction.md](02-introduction.md) | What is Context Engineering | 23-32 | - |
+| [03-prompt-engineering.md](03-prompt-engineering.md) | Prompt Engineering Fundamentals | 33-75 | **🔗 [Workshop](prompt-engineering/)** (9 modules, 3hrs) |
+| [04-implementation.md](04-implementation.md) | Implementation Patterns | 76-100 | - |
+| [05-summary.md](05-summary.md) | Summary and Best Practices | 101-120 | **🔗 [Best Practices & Safety](prompt-engineering/)** (Modules 6, 8) |
 
 ## Usage
 

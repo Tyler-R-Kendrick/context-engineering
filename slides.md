@@ -27,21 +27,21 @@ src: slides/00-title.md
 ---
 
 ---
-src: slides/01-introduction.md
+src: slides/01-problem-statement.md
 ---
 
 ---
-src: slides/02-prompt-engineering.md
+src: slides/02-introduction.md
 ---
 
 ---
-src: slides/08-implementation.md
+src: slides/03-prompt-engineering.md
 ---
 
 ---
-src: slides/09-summary.md
+src: slides/04-implementation.md
 ---
 
 ---
-src: slides/10-advanced-theory.md
+src: slides/05-summary.md
 ---
