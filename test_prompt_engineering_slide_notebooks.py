@@ -1,4 +1,3 @@
-import ast
 import json
 from pathlib import Path
 
@@ -57,4 +56,4 @@ def test_prompt_engineering_slide_notebook_code_cells_compile():
                 continue
 
             source = "".join(cell["source"])
-            compile(source, notebook_name, "exec", flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
+            compile(source, notebook_name, "exec")
