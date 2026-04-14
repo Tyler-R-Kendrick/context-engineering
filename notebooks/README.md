@@ -19,6 +19,8 @@ This directory contains polyglot notebooks that provide interactive, executable 
 - Overview and reference slides stay intentionally brief
 - The notebooks focus on high-value technique examples instead of expanding every slide subsection
 - Prompt examples use ambient Copilot auth in VS Code or GitHub Codespaces instead of stored secrets
+- Technique notebooks tell readers to install all notebook/test prerequisites with `pip install -r requirements-dev.txt`
+- Failure and improved examples now run in separate cells so readers can inspect each result independently
 
 **Included notebooks:**
 - `01-introduction-to-prompt-engineering.ipynb`

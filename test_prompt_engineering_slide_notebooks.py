@@ -54,9 +54,13 @@ def test_prompt_engineering_slide_notebooks_have_required_sections():
             assert "## Prerequisites" in markdown_text, (
                 f"{notebook_name} missing prerequisites"
             )
+            assert "pip install -r requirements-dev.txt" in markdown_text, (
+                f"{notebook_name} must install all declared notebook prerequisites"
+            )
             for phrase in [
                 "**Failure mode:**",
                 "**Failure test:**",
+                "**Failure example:**",
                 "**Technique:**",
                 "**Improved example:**",
             ]:
@@ -87,6 +91,36 @@ def test_prompt_engineering_technique_notebooks_use_real_copilot_sdk():
         assert "ambient auth" in notebook_text
         assert "types.ModuleType(" not in notebook_text
         assert "install_fake_copilot_modules" not in notebook_text
+        assert "run_prompt_pair" not in notebook_text
+
+
+def test_prompt_engineering_technique_notebooks_run_examples_in_isolation():
+    technique_notebooks = [
+        notebook_name
+        for notebook_name in EXPECTED_NOTEBOOKS
+        if notebook_name
+        not in {
+            "01-introduction-to-prompt-engineering.ipynb",
+            "09-resources-for-further-learning.ipynb",
+        }
+    ]
+
+    for notebook_name in technique_notebooks:
+        notebook = load_notebook(notebook_name)
+        code_cells = [
+            "".join(cell["source"])
+            for cell in notebook["cells"]
+            if cell["cell_type"] == "code"
+        ]
+
+        assert any(
+            "Failure result" in cell and "await ask_copilot(" in cell
+            for cell in code_cells
+        ), f"{notebook_name} missing isolated failure execution cell"
+        assert any(
+            "Improved result" in cell and "await ask_copilot(" in cell
+            for cell in code_cells
+        ), f"{notebook_name} missing isolated improved execution cell"
 
 
 def test_prompt_engineering_slide_notebook_code_cells_compile():
