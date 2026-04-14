@@ -1,6 +1,11 @@
 import ast
 import json
+import sys
 from pathlib import Path
+
+import pytest
+
+from test_copilot_sdk_notebooks import install_fake_copilot_modules
 
 
 REPO_ROOT = Path(__file__).resolve().parent
@@ -22,6 +27,11 @@ EXPECTED_NOTEBOOKS = [
 
 def load_notebook(notebook_name: str) -> dict:
     return json.loads((NOTEBOOKS_DIR / notebook_name).read_text())
+
+
+def load_code_cell(notebook_name: str, cell_index: int) -> str:
+    notebook = load_notebook(notebook_name)
+    return "".join(notebook["cells"][cell_index]["source"])
 
 
 def test_prompt_engineering_slide_notebooks_exist():
@@ -121,6 +131,50 @@ def test_prompt_engineering_technique_notebooks_run_examples_in_isolation():
             "Improved result" in cell and "await ask_copilot(" in cell
             for cell in code_cells
         ), f"{notebook_name} missing isolated improved execution cell"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "notebook_name",
+    [
+        notebook_name
+        for notebook_name in EXPECTED_NOTEBOOKS
+        if notebook_name
+        not in {
+            "01-introduction-to-prompt-engineering.ipynb",
+            "09-resources-for-further-learning.ipynb",
+        }
+    ],
+)
+async def test_prompt_engineering_setup_cells_use_copilot_sdk_auth(
+    notebook_name: str,
+):
+    calls, permission_handler, modules = install_fake_copilot_modules()
+    namespace = {}
+
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        for module_name, module in modules.items():
+            monkeypatch.setitem(sys.modules, module_name, module)
+        exec(load_code_cell(notebook_name, 2), namespace)
+        result = await namespace["ask_copilot"](
+            "Hello from a prompt-engineering notebook",
+            system_message="Stay concise.",
+        )
+
+    assert result == "reply:Hello from a prompt-engineering notebook"
+    assert namespace["model"] == "gpt-4.1"
+
+    assert len(calls) == 1
+    session_kwargs = calls[0]["kwargs"]
+    assert session_kwargs["model"] == "gpt-4.1"
+    assert (
+        session_kwargs["on_permission_request"]
+        is permission_handler.approve_all
+    )
+    assert session_kwargs["system_message"] == {
+        "mode": "append",
+        "content": "Stay concise.",
+    }
 
 
 def test_prompt_engineering_slide_notebook_code_cells_compile():

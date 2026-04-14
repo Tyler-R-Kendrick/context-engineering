@@ -31,7 +31,7 @@ Best for hands-on learners.
 4. Select `.NET Interactive` kernel
 5. Run cells and complete exercises
 
-For concise, slide-aligned technique examples with real GitHub Copilot SDK notebook runs, open any notebook in `notebooks/prompt-engineering/`.
+For concise, slide-aligned technique examples with real GitHub Copilot SDK notebook runs, open any notebook in `notebooks/prompt-engineering/`. Those notebooks are Python notebooks, so use a Python 3 / `ipykernel` kernel instead of `.NET Interactive`, install `pip install -r requirements-dev.txt`, and make sure the VS Code Python and Jupyter extensions are installed.
 
 ---
 
@@ -73,10 +73,15 @@ npm install
 
 # 2. Install VS Code extensions
 code --install-extension ms-dotnettools.dotnet-interactive-vscode
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
 
 # 3. Install .NET SDK 8.0+ from dotnet.microsoft.com
 # Verify installation:
 dotnet --version
+
+# 4. Install Python notebook dependencies for notebooks/prompt-engineering/
+python -m pip install -r requirements-dev.txt
 ```
 
 ---

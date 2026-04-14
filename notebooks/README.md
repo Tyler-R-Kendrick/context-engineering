@@ -16,6 +16,7 @@ This directory contains polyglot notebooks that provide interactive, executable 
 - Short failure-test and fix explanations that explain what changed and why it works
 
 **Notes:**
+- These are Python notebooks (`ipykernel`) and require Python 3.10+ plus the VS Code Jupyter and Python extensions to run locally
 - Overview and reference slides stay intentionally brief
 - The notebooks focus on high-value technique examples instead of expanding every slide subsection
 - Prompt examples use ambient Copilot auth in VS Code or GitHub Codespaces instead of stored secrets
