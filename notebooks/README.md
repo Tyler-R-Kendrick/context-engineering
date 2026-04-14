@@ -7,17 +7,18 @@ This directory contains polyglot notebooks that provide interactive, executable 
 ### Prompt Engineering Slide Companion Collection ⭐ NEW
 **Folder:** `prompt-engineering/`
 
-**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`, trimmed to the techniques explicitly called out in each slide.
+**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`, trimmed to the techniques explicitly called out in each slide and implemented with the real GitHub Copilot SDK plus ambient auth.
 
 **What each notebook includes:**
 - Concise entries for the techniques named in the source slide
-- A brief failure mode and failure example for each technique
-- A short description of the technique
-- A compact improved example showing the technique in action
+- Instructional failure-mode text for readers who are new to prompt engineering
+- Executable failure and improved prompt runs using the real GitHub Copilot SDK
+- Short failure-test and fix explanations that explain what changed and why it works
 
 **Notes:**
 - Overview and reference slides stay intentionally brief
 - The notebooks focus on high-value technique examples instead of expanding every slide subsection
+- Prompt examples use ambient Copilot auth in VS Code or GitHub Codespaces instead of stored secrets
 
 **Included notebooks:**
 - `01-introduction-to-prompt-engineering.ipynb`

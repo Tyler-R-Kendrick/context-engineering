@@ -32,7 +32,7 @@ Open the polyglot notebooks in VS Code with the Polyglot Notebooks extension:
 
 1. `notebooks/01-prompt-engineering-basics.ipynb` - Core prompt engineering concepts
 2. `notebooks/02-advanced-prompt-patterns.ipynb` - Advanced techniques and patterns
-3. `notebooks/prompt-engineering/` - Slide-aligned companion notebooks with concise technique examples from each prompt engineering workshop module
+3. `notebooks/prompt-engineering/` - Slide-aligned companion notebooks with concise technique examples, real GitHub Copilot SDK calls, and ambient-auth notebook demos
 
 ### Complete Workshop Exercises
 
