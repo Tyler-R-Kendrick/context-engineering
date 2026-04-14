@@ -64,11 +64,13 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 **Duration:** 45-60 minutes
 
-**Description:** Practical prompt engineering using GitHub's Azure AI Inference service with real API calls.
+**Description:** Practical prompt engineering using the GitHub Copilot SDK with ambient Copilot authentication.
 
 **Prerequisites:**
-- `GITHUB_TOKEN` environment variable set with GitHub Personal Access Token
-- Install: `pip install azure-ai-inference`
+- Python 3.11+
+- Install: `pip install github-copilot-sdk`
+- Sign in to GitHub Copilot in VS Code or GitHub Codespaces
+- No personal access token or `GITHUB_TOKEN` secret required
 
 **Topics Covered:**
 - Connecting to GitHub Models endpoint
@@ -99,8 +101,10 @@ This directory contains polyglot notebooks that provide interactive, executable 
 **Description:** Advanced techniques for optimizing context and managing token budgets.
 
 **Prerequisites:**
-- `GITHUB_TOKEN` environment variable
-- Install: `pip install azure-ai-inference`
+- Python 3.11+
+- Install: `pip install github-copilot-sdk`
+- Sign in to GitHub Copilot in VS Code or GitHub Codespaces
+- No personal access token or `GITHUB_TOKEN` secret required
 
 **Topics Covered:**
 - Token estimation and prediction
@@ -129,8 +133,10 @@ This directory contains polyglot notebooks that provide interactive, executable 
 **Description:** Retrieval-Augmented Generation and the complete 6-stage context engineering pipeline.
 
 **Prerequisites:**
-- `GITHUB_TOKEN` environment variable
-- Install: `pip install azure-ai-inference`
+- Python 3.11+
+- Install: `pip install github-copilot-sdk`
+- Sign in to GitHub Copilot in VS Code or GitHub Codespaces
+- No personal access token or `GITHUB_TOKEN` secret required
 
 **Topics Covered:**
 - Simple RAG with retrieval
@@ -170,15 +176,12 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 ### For Python Notebooks (3-5)
 
-1. **Python 3.8+** - Download from [python.org](https://python.org)
-2. **Azure AI Inference SDK**:
+1. **Python 3.11+** - Download from [python.org](https://python.org)
+2. **GitHub Copilot SDK**:
    ```bash
-   pip install azure-ai-inference
+   pip install github-copilot-sdk
    ```
-3. **GitHub Token** - Set environment variable:
-   ```bash
-   export GITHUB_TOKEN="your_github_personal_access_token"
-   ```
+3. **GitHub Copilot Sign-In** - Sign in to GitHub Copilot in VS Code or GitHub Codespaces when prompted. No extra secret is required.
 
 ### Optional but Recommended
 

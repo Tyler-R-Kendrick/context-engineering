@@ -13,6 +13,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
 				"ms-playwright.playwright",
 				"ms-vscode.vscode-json",
 				"ms-python.python",
