@@ -10,7 +10,7 @@ flake8>=6.0.0
 jupyter>=1.0.0
 ipykernel>=6.0.0
 notebook>=7.0.0
-github-copilot-sdk==0.2.2
+github-copilot-sdk>=0.2.2
 
 # Code formatting and linting
 autopep8>=2.0.0
