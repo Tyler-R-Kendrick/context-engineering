@@ -32,7 +32,7 @@ def test_prompt_engineering_slide_notebooks_have_required_sections():
     for notebook_name in EXPECTED_NOTEBOOKS:
         notebook = load_notebook(notebook_name)
         assert 1 <= len(notebook["cells"]) <= 2, (
-            f"{notebook_name} should stay concise"
+            f"{notebook_name} should contain 1-2 cells to stay concise"
         )
 
         markdown_text = "\n".join(
