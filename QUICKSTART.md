@@ -31,6 +31,8 @@ Best for hands-on learners.
 4. Select `.NET Interactive` kernel
 5. Run cells and complete exercises
 
+For the slide-aligned walkthroughs, open any notebook in `notebooks/prompt-engineering/`.
+
 ---
 
 ### Path 3: Workshop Mode (90-120 minutes)

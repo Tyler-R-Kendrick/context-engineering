@@ -4,6 +4,32 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 ## 📚 Available Notebooks
 
+### Prompt Engineering Slide Companion Collection ⭐ NEW
+**Folder:** `prompt-engineering/`
+
+**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`.
+
+**What each notebook includes:**
+- Why the LLM or agent fails without the technique
+- A concrete failure example
+- A description of the technique or concept
+- An improved example showing the technique in action
+
+**Included notebooks:**
+- `01-introduction-to-prompt-engineering.ipynb`
+- `02-types-of-prompts.ipynb`
+- `03-anatomy-of-an-effective-prompt.ipynb`
+- `04-prompt-engineering-techniques-overview.ipynb`
+- `04-1-basic-techniques.ipynb`
+- `04-2-reasoning-techniques.ipynb`
+- `04-3-rag.ipynb`
+- `04-4-parameter-tuning.ipynb`
+- `04-5-constrained-decoding.ipynb`
+- `06-best-practices-for-effective-prompts.ipynb`
+- `09-resources-for-further-learning.ipynb`
+
+---
+
 ### 1. Prompt Engineering Basics
 **File:** `01-prompt-engineering-basics.ipynb`
 
