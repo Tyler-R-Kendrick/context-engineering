@@ -57,15 +57,11 @@ def test_prompt_engineering_slide_notebooks_have_required_sections():
             for phrase in [
                 "**Failure mode:**",
                 "**Failure test:**",
-                "**Failure example:**",
                 "**Technique:**",
                 "**Improved example:**",
             ]:
-                normalized_phrase = phrase
-                if phrase == "**Failure example:**":
-                    normalized_phrase = "**Improved example:**"
-                assert normalized_phrase in markdown_text, (
-                    f"{notebook_name} missing {normalized_phrase!r}"
+                assert phrase in markdown_text, (
+                    f"{notebook_name} missing {phrase!r}"
                 )
 
 
