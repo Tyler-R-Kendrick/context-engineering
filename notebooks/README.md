@@ -4,6 +4,40 @@ This directory contains polyglot notebooks that provide interactive, executable 
 
 ## 📚 Available Notebooks
 
+### Prompt Engineering Slide Companion Collection ⭐ NEW
+**Folder:** `prompt-engineering/`
+
+**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`, trimmed to the techniques explicitly called out in each slide and implemented with the real GitHub Copilot SDK plus ambient auth.
+
+**What each notebook includes:**
+- Concise entries for the techniques named in the source slide
+- Instructional failure-mode text for readers who are new to prompt engineering
+- Executable failure and improved prompt runs using the real GitHub Copilot SDK
+- Short failure-test and fix explanations that explain what changed and why it works
+
+**Notes:**
+- These are Python notebooks (`ipykernel`) and require Python 3.10+ plus the VS Code Jupyter and Python extensions to run locally
+- Overview and reference slides stay intentionally brief
+- The notebooks focus on high-value technique examples instead of expanding every slide subsection
+- Prompt examples use ambient Copilot auth in VS Code or GitHub Codespaces instead of stored secrets
+- Technique notebooks tell readers to install all notebook/test prerequisites with `pip install -r requirements-dev.txt`
+- Failure and improved examples now run in separate cells so readers can inspect each result independently
+
+**Included notebooks:**
+- `01-introduction-to-prompt-engineering.ipynb`
+- `02-types-of-prompts.ipynb`
+- `03-anatomy-of-an-effective-prompt.ipynb`
+- `04-prompt-engineering-techniques-overview.ipynb`
+- `04-1-basic-techniques.ipynb`
+- `04-2-reasoning-techniques.ipynb`
+- `04-3-rag.ipynb`
+- `04-4-parameter-tuning.ipynb`
+- `04-5-constrained-decoding.ipynb`
+- `06-best-practices-for-effective-prompts.ipynb`
+- `09-resources-for-further-learning.ipynb`
+
+---
+
 ### 1. Prompt Engineering Basics
 **File:** `01-prompt-engineering-basics.ipynb`
 
