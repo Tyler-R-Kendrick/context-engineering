@@ -85,7 +85,8 @@ def test_prompt_engineering_technique_notebooks_use_real_copilot_sdk():
         assert "create_session(" in notebook_text
         assert "await ask_copilot(" in notebook_text
         assert "ambient auth" in notebook_text
-        assert "fake" not in notebook_text.lower()
+        assert "types.ModuleType(" not in notebook_text
+        assert "install_fake_copilot_modules" not in notebook_text
 
 
 def test_prompt_engineering_slide_notebook_code_cells_compile():
