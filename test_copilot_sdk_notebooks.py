@@ -184,4 +184,5 @@ def test_notebooks_remove_pat_based_azure_model_usage(notebook_name: str):
     assert "azure.ai.inference" not in notebook_text
     assert "AzureKeyCredential" not in notebook_text
     assert "GITHUB_TOKEN" not in notebook_text
-    assert "github-copilot-sdk" in notebook_text
+    assert "from copilot import CopilotClient" in notebook_text
+    assert "create_session(" in notebook_text
