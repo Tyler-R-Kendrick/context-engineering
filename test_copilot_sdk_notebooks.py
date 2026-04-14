@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import pytest
 
 
-REPO_ROOT = Path("/home/runner/work/context-engineering/context-engineering")
+REPO_ROOT = Path(__file__).resolve().parent
 NOTEBOOKS_DIR = REPO_ROOT / "notebooks"
 
 
