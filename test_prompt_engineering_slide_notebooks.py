@@ -29,22 +29,37 @@ def test_prompt_engineering_slide_notebooks_exist():
 
 
 def test_prompt_engineering_slide_notebooks_have_required_sections():
-    required_markdown_phrases = [
-        "## Why this topic matters",
-        "## Technique",
-        "## Try it yourself",
-    ]
-
     for notebook_name in EXPECTED_NOTEBOOKS:
         notebook = load_notebook(notebook_name)
+        assert 1 <= len(notebook["cells"]) <= 2, (
+            f"{notebook_name} should stay concise"
+        )
+
         markdown_text = "\n".join(
             "".join(cell["source"])
             for cell in notebook["cells"]
             if cell["cell_type"] == "markdown"
         )
 
-        for phrase in required_markdown_phrases:
-            assert phrase in markdown_text, f"{notebook_name} missing {phrase!r}"
+        assert "Source slide:" in markdown_text, (
+            f"{notebook_name} missing slide reference"
+        )
+
+        assert (
+            "## Techniques" in markdown_text
+            or "No standalone prompt technique examples" in markdown_text
+        ), f"{notebook_name} missing technique-focused content"
+
+        if "## Techniques" in markdown_text:
+            for phrase in [
+                "**Failure mode:**",
+                "**Failure example:**",
+                "**Technique:**",
+                "**Improved example:**",
+            ]:
+                assert phrase in markdown_text, (
+                    f"{notebook_name} missing {phrase!r}"
+                )
 
 
 def test_prompt_engineering_slide_notebook_code_cells_compile():

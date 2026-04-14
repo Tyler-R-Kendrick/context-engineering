@@ -7,13 +7,17 @@ This directory contains polyglot notebooks that provide interactive, executable 
 ### Prompt Engineering Slide Companion Collection ⭐ NEW
 **Folder:** `prompt-engineering/`
 
-**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`.
+**Description:** A slide-aligned notebook collection for every markdown module in `slides/prompt-engineering/`, trimmed to the techniques explicitly called out in each slide.
 
 **What each notebook includes:**
-- Why the LLM or agent fails without the technique
-- A concrete failure example
-- A description of the technique or concept
-- An improved example showing the technique in action
+- Concise entries for the techniques named in the source slide
+- A brief failure mode and failure example for each technique
+- A short description of the technique
+- A compact improved example showing the technique in action
+
+**Notes:**
+- Overview and reference slides stay intentionally brief
+- The notebooks focus on high-value technique examples instead of expanding every slide subsection
 
 **Included notebooks:**
 - `01-introduction-to-prompt-engineering.ipynb`
